@@ -1,6 +1,6 @@
 # The Hook Atlas
 
-A field guide to **49 engagement mechanics** traced across games, business, and belief —
+A field guide to **94 engagement mechanics** traced across games, business, and belief —
 what fires in the brain, what binds the group, where each one earns loyalty, and where it
 curdles into a dark pattern.
 
@@ -15,8 +15,9 @@ scripts, fonts, tracking or network calls.
   with coordinates, tap opens the dossier.
 - **Dossiers** — each specimen gets *What it is*, *In the brain*, *In the group*, field
   **sightings** across four habitats (▲ worked, ▼ backfired, ◆ contested), a founder's
-  **BUILD / AVOID playbook**, principles at work, and adjacent mechanics.
-- **Library** — the full drawer grouped by nine families, with multi-select family and
+  **BUILD / AVOID playbook**, principles at work, and adjacent mechanics. 376 sightings
+  and counting.
+- **Library** — the full drawer grouped by ten families, with multi-select family and
   risk filters (BENIGN / DUAL-USE / HAZARD) and full-text search across dossiers,
   sightings and principles.
 - **Deal me one** — a random specimen from whatever is currently filtered.
@@ -24,18 +25,19 @@ scripts, fonts, tracking or network calls.
 Extras: deep-link any mechanic (`index.html#m=streaks`), **Copy founder brief** turns a
 dossier into a plain-text prompt for your notes or an AI chat, press `/` to search.
 
+## Lineage
+
+The collection draws on the classic **SCVNGR Game Dynamics Playdeck** (every playdeck
+concept is in the atlas — search "SCVNGR" to see the set), the behavioral-design
+literature (Skinner, Kahneman, Deci, Csikszentmihalyi, McGonigal, Schell), and modern
+game-design vocabulary translated for founders — core loops, rubber banding, battle
+passes, skill ceilings, sinks & faucets.
+
 ## Design notes
 
 - System sans-serif stack for body text (mono accents via `ui-monospace`) — no serif,
   no webfont downloads.
 - Mobile-first: the dossier opens as a bottom sheet on small screens, map dots get
   enlarged touch targets, filters scroll horizontally.
-- The nine family colors are tuned for colorblind safety (validated CVD separation and
-  ≥3:1 contrast on the felt surface) while keeping each family's original hue.
-
-## Files
-
-| File | Description |
-|---|---|
-| `index.html` | The Hook Atlas |
-| `mechanic_atlas_founders.html` | Earlier companion prototype (120-term mechanic atlas), kept for reference |
+- The ten family colors are tuned for colorblind safety (validated CVD separation and
+  ≥3:1 contrast on the felt surface).
