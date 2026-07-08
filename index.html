@@ -5,6 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>The Hook Atlas — a field guide to engagement mechanics</title>
 <meta name="description" content="A field atlas of engagement mechanics traced across games, business, and belief — what fires in the brain, what binds the group, where each one earns loyalty, and where it curdles into a dark pattern.">
+<meta property="og:title" content="The Hook Atlas — a field guide to engagement mechanics">
+<meta property="og:description" content="94 engagement mechanics traced across games, business, and belief. Map them on three lenses, build your hook stack, take the field exam, or apply any mechanic to your own company.">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="The Hook Atlas — a field guide to engagement mechanics">
+<meta name="twitter:description" content="94 engagement mechanics traced across games, business, and belief — what fires in the brain, what binds the group, and where it curdles into a dark pattern.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎣</text></svg>">
 <style>
 :root{
@@ -240,15 +246,146 @@ h1 .tilt{font-style:italic;font-weight:800;color:#f5edd9}
   border-radius:3px;padding:10px 16px;opacity:0;transition:transform .25s,opacity .25s;pointer-events:none;
 }
 .toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+
+/* ---------- daily specimen ---------- */
+.daily{margin-top:14px;max-width:640px}
+.daily button{
+  display:inline-flex;align-items:center;gap:10px;text-align:left;
+  font-family:var(--mono);font-size:12px;letter-spacing:.04em;
+  background:#13232599;border:1px solid var(--line2);border-radius:4px;color:var(--dim);
+  padding:9px 13px;min-height:38px;transition:border-color .15s,color .15s;
+}
+.daily button:hover{border-color:#3f6266;color:var(--bone)}
+.daily .dk{color:#e0a94f;font-size:10px;letter-spacing:.16em;text-transform:uppercase;flex:none}
+.daily .dn{color:var(--bone);font-weight:600}
+
+/* ---------- lens switcher ---------- */
+.lens-row{display:flex;gap:6px;align-items:center;flex-wrap:wrap;padding:0 2px 10px}
+.lens-label{font-family:var(--mono);font-size:10px;letter-spacing:.16em;color:var(--faint);text-transform:uppercase;margin-right:2px}
+.lens{
+  font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+  background:transparent;color:var(--dim);border:1px solid var(--line2);border-radius:2px;
+  padding:6px 11px;min-height:32px;transition:background .15s,color .15s;
+}
+.lens.on{background:var(--felt3);color:var(--bone);border-color:#3f6266}
+.lens:hover{color:var(--bone)}
+
+/* ---------- stack tray ---------- */
+.tray{
+  position:fixed;left:0;right:0;bottom:0;z-index:45;
+  background:#0c1719f2;border-top:1px solid #3f6266;
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  padding-bottom:env(safe-area-inset-bottom);
+}
+.tray-in{max-width:1180px;margin:0 auto;padding:10px 18px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.tray .tl{font-family:var(--mono);font-size:10px;letter-spacing:.16em;color:#e0a94f;text-transform:uppercase;flex:none}
+.tray .tread{font-family:var(--mono);font-size:10px;letter-spacing:.06em;color:var(--faint);flex:none}
+.tray-chips{display:flex;gap:6px;flex-wrap:wrap;flex:1;min-width:200px}
+.schip{
+  display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:600;color:var(--bone);
+  background:color-mix(in srgb,var(--c) 12%, transparent);
+  border:1px solid color-mix(in srgb,var(--c) 45%, transparent);
+  border-radius:3px;padding:5px 9px;cursor:pointer;
+}
+.schip .x{font-family:var(--mono);color:var(--dim);padding:0 1px}
+.schip .x:hover{color:#f07f7f}
+.tray-actions{display:flex;gap:6px;flex-wrap:wrap}
+.tray-actions .deal{min-height:32px;padding:6px 10px;font-size:10.5px}
+body.has-tray{padding-bottom:120px}
+@media(max-width:719px){body.has-tray{padding-bottom:170px}}
+
+/* ---------- modal ---------- */
+.modal{
+  position:fixed;z-index:60;left:50%;top:50%;transform:translate(-50%,-50%) scale(.98);
+  width:min(600px,calc(100% - 24px));max-height:min(86dvh,780px);overflow-y:auto;overscroll-behavior:contain;
+  background:#0f1d20;border:1px solid var(--line2);border-radius:8px;
+  opacity:0;pointer-events:none;transition:opacity .18s,transform .18s;
+}
+.modal.show{opacity:1;pointer-events:auto;transform:translate(-50%,-50%) scale(1)}
+.modal-in{padding:24px 22px 28px}
+@media(max-width:719px){.modal-in{padding:20px 16px 24px}}
+.m-head{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#e0a94f;margin-bottom:4px}
+.modal h2{font-size:clamp(21px,4vw,26px);font-weight:800;letter-spacing:-.02em;margin:4px 0 10px}
+.modal p.mp{color:var(--dim);font-size:13.5px;line-height:1.6;margin-bottom:12px}
+.m-close{
+  float:right;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+  background:var(--felt3);border:1px solid var(--line2);border-radius:3px;color:var(--dim);
+  padding:8px 12px;min-height:36px;
+}
+.m-close:hover{color:var(--bone)}
+.field{margin-bottom:14px}
+.field label{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-bottom:6px}
+.field input,.field select,.field textarea{
+  width:100%;background:var(--felt2);border:1px solid var(--line2);border-radius:3px;color:var(--bone);
+  font-family:var(--mono);font-size:13px;padding:10px 12px;outline:none;
+}
+.field textarea{font-family:var(--sans);font-size:14px;line-height:1.55;min-height:110px;resize:vertical}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:#3f6266}
+.field .hint{font-size:12px;color:var(--faint);margin-top:5px;line-height:1.5}
+.m-note{
+  border:1px solid #6b532255;border-radius:4px;background:#e0a94f0d;
+  font-size:12.5px;color:#c4bcab;line-height:1.55;padding:10px 12px;margin-bottom:14px;
+}
+.m-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.m-actions .deal.primary{background:#e0a94f;color:#101d20;border-color:#e0a94f;font-weight:600}
+.m-actions .deal.primary:hover{background:#eab95f}
+
+/* ---------- AI ideas ---------- */
+.ai-note{font-size:11.5px;color:var(--faint);font-family:var(--mono);letter-spacing:.04em;margin-bottom:10px}
+.idea{border:1px solid var(--line2);border-left:3px solid #e0a94f;border-radius:4px;background:var(--felt2);padding:11px 13px;margin-bottom:9px}
+.idea .it{font-weight:700;font-size:14px;margin-bottom:3px}
+.idea .idsc{color:var(--dim);font-size:13.5px;line-height:1.55}
+.idea .irisk{color:#e0a94f;font-size:12px;line-height:1.5;margin-top:5px}
+.idea .irisk b{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;color:#e0a94f}
+.spin{
+  display:inline-block;width:12px;height:12px;border:2px solid var(--faint);border-top-color:#e0a94f;
+  border-radius:99px;animation:spin .8s linear infinite;vertical-align:-2px;margin-right:8px;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.ai-err{color:#f07f7f;font-size:13px;line-height:1.5;padding:8px 0}
+
+/* ---------- splice ---------- */
+.splice-pair{display:grid;grid-template-columns:1fr;gap:10px;margin:12px 0 14px}
+@media(min-width:520px){.splice-pair{grid-template-columns:1fr auto 1fr;align-items:stretch}}
+.splice-x{font-family:var(--mono);font-size:18px;color:#e0a94f;display:flex;align-items:center;justify-content:center}
+.mini-card{
+  text-align:left;display:flex;flex-direction:column;gap:5px;cursor:pointer;
+  border:1px solid var(--line2);border-left:3px solid var(--c);border-radius:4px;
+  background:var(--felt2);padding:11px 12px;
+}
+.mini-card .mc{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+.mini-card h3{font-size:15px;font-weight:750}
+.mini-card .mt{color:var(--dim);font-size:12.5px;line-height:1.45}
+
+/* ---------- exam ---------- */
+.exam-q{margin:14px 0}
+.exam-meta{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;color:var(--faint);text-transform:uppercase;margin-bottom:10px}
+.exam-sight{border:1px solid var(--line2);border-left:3px solid #e0a94f;border-radius:4px;background:var(--felt2);padding:13px 14px;margin-bottom:14px}
+.exam-sight .sn{font-weight:700;font-size:14.5px}
+.exam-sight .st{color:var(--dim);font-size:13.5px;line-height:1.55;margin-top:4px}
+.exam-opts{display:grid;gap:8px}
+.exam-opt{
+  text-align:left;font-size:14px;font-weight:600;color:var(--bone);
+  border:1px solid var(--line2);border-radius:4px;background:var(--felt2);padding:11px 13px;
+  transition:border-color .12s,background .12s;
+}
+.exam-opt:hover{border-color:#3f6266}
+.exam-opt.right{border-color:#2c5c42;background:#67c58718}
+.exam-opt.wrong{border-color:#6e2b2b;background:#f07f7f14}
+.exam-opt:disabled{cursor:default}
+.exam-grid{font-size:22px;letter-spacing:3px;margin:8px 0 4px;word-break:break-all}
+.exam-score{font-family:var(--mono);font-size:30px;font-weight:600;margin:4px 0 12px}
+.critique-body p{color:#d7d2c2;font-size:14px;line-height:1.65;margin-bottom:10px}
 </style>
 </head>
 <body>
 
 <header class="masthead">
-  <div class="eyebrow">A field atlas for founders · 49 specimens · 4 habitats</div>
+  <div class="eyebrow">A field atlas for founders · 94 specimens · 4 habitats</div>
   <h1>The Hook <span class="tilt">Atlas</span></h1>
-  <p class="subtitle">The same loops that keep players grinding keep customers subscribing and congregations tithing. This atlas traces <b>49 engagement mechanics</b> across games, business, and belief — what fires in the brain, what binds the group, where each one earns loyalty, and where it curdles into a dark pattern.</p>
+  <p class="subtitle">The same loops that keep players grinding keep customers subscribing and congregations tithing. This atlas traces <b>94 engagement mechanics</b> across games, business, and belief — what fires in the brain, what binds the group, where each one earns loyalty, and where it curdles into a dark pattern.</p>
   <div class="mast-stats" id="mastStats"></div>
+  <div class="daily" id="daily"></div>
 </header>
 
 <nav class="toolbar" aria-label="Views and search">
@@ -262,6 +399,9 @@ h1 .tilt{font-style:italic;font-weight:800;color:#f5edd9}
       <input id="q" type="search" placeholder="Search… try “loss aversion” or “Duolingo”" aria-label="Search mechanics">
     </label>
     <button class="deal" id="deal">Deal me one</button>
+    <button class="deal" id="spliceBtn" title="Deal two mechanics and crossbreed them">Splice</button>
+    <button class="deal" id="examBtn" title="Can you name the mechanic from a real-world sighting?">Exam</button>
+    <button class="deal" id="settingsBtn" title="Settings — add your own API key to apply mechanics to your company" aria-label="Settings">⚙</button>
   </div>
 </nav>
 
@@ -269,7 +409,8 @@ h1 .tilt{font-style:italic;font-weight:800;color:#f5edd9}
 
 <main>
   <section class="atlas-wrap" id="atlasView" aria-label="Atlas map">
-    <div class="atlas-note">Every mechanic, plotted · horizontal — who it works on · vertical — how it pulls · tap any point to open its dossier</div>
+    <div class="lens-row" id="lensRow" role="group" aria-label="Map lens"></div>
+    <div class="atlas-note" id="atlasNote">Every mechanic, plotted · horizontal — who it works on · vertical — how it pulls · tap any point to open its dossier</div>
     <div class="atlas" id="atlasBox">
       <svg id="atlasSvg" role="img" aria-label="Map of mechanics on individual-to-collective and carrot-to-stick axes"></svg>
       <div class="tip" id="tip"></div>
@@ -281,14 +422,18 @@ h1 .tilt{font-style:italic;font-weight:800;color:#f5edd9}
 
 <div class="scrim" id="scrim"></div>
 <aside class="panel" id="panel" role="dialog" aria-modal="true" aria-label="Mechanic dossier"></aside>
+<div class="modal" id="modal" role="dialog" aria-modal="true"></div>
+<div class="tray" id="tray" hidden aria-label="Your hook stack"></div>
 
 <footer class="colophon">
   <div class="colophon-in">
     <div class="fh">Colophon &amp; caution</div>
-    <p>Each mechanic is charted on two axes: <em>me ⟷ we</em> (does it work on a private mind or on a group?) and <em>carrot ⟷ stick</em> (does it pull with desire or push with fear of loss?). Coordinates are editorial judgments, not measurements — argue with them, that's the point.</p>
+    <p>The map has three lenses. <em>Psychology</em> charts <em>me ⟷ we</em> (does it work on a private mind or on a group?) against <em>carrot ⟷ stick</em> (does it pull with desire or push with fear of loss?). <em>Tempo</em> charts how fast a mechanic hooks against what happens when you stop feeding it. The <em>builder's lens</em> charts how long it takes to ship against how hard it grabs. All coordinates are editorial judgments, not measurements — argue with them, that's the point.</p>
     <p>Hazard marks matter. Most of these mechanics are dual-use: the loop that builds a habit can build a dependency, and the ritual that builds a community can build a cult. The strongest consumer companies borrow from casinos and churches alike — the durable ones are honest about which shelf they're borrowing from.</p>
     <p><em>Examples span games, business, religion &amp; high-control groups, and the wider world (military, fitness, politics). Sightings marked ▲ worked, ▼ backfired or crossed a line, ◆ contested.</em></p>
-    <p>Built as a single self-contained HTML file — no external scripts, fonts, tracking or network calls. Deep-link any mechanic by opening its dossier and copying the URL.</p>
+    <p>Field tools: <em>Deal me one</em> draws a random specimen. <em>Splice</em> deals two and asks what product their crossbreed would be. The <em>field exam</em> tests whether you can name a mechanic from a real-world sighting. Add specimens to <em>your stack</em> from any dossier to assemble your product's engagement architecture, then copy it as one brief.</p>
+    <p>If you add your own Anthropic or OpenAI API key in settings (⚙) and describe your company, every dossier grows an <em>apply-to-my-company</em> button that brainstorms eight ways the mechanic could work for your business — divergent thinking, bad ideas included on purpose. The key lives only in your browser's local storage and requests go directly to the provider you chose.</p>
+    <p>Built as a single self-contained HTML file — no external scripts, fonts, or tracking, and no network calls unless you bring your own API key. Deep-link any mechanic by opening its dossier and copying the URL; share a whole stack with the stack link.</p>
   </div>
 </footer>
 
@@ -1736,12 +1881,145 @@ rel:["guilds","status-display","social-fabric","ugc-modding"]}
 
 const VAL={1:['▲','g'],0:['◆','m'],'-1':['▼','b']};
 
+/* ================= ALTERNATE LENS COORDINATES =================
+   Per mechanic: [tempoX, tempoY, buildX, buildY]
+   tempoX  — hooks on first contact (-1) ⟷ hooks over weeks (+1)
+   tempoY  — compounds / runs on its own (-1) ⟷ decays without constant feeding (+1)
+   buildX  — weekend feature (-1) ⟷ quarter-long system (+1)
+   buildY  — gentle nudge (-1) ⟷ industrial strength (+1)
+   Editorial judgments, like everything else on the map. */
+const ALT = {
+"variable-ratio":[-0.85,0.45,-0.20,0.90],
+"loot-boxes":[-0.70,0.55,0.35,0.85],
+"streaks":[0.15,-0.35,-0.75,0.60],
+"daily-rewards":[-0.40,0.30,-0.80,0.15],
+"near-miss":[-0.90,0.60,-0.50,0.70],
+"xp-levels":[-0.30,-0.10,-0.35,0.35],
+"skill-trees":[0.45,-0.30,0.40,0.40],
+"onboarding":[-0.75,0.70,0.10,0.25],
+"prestige":[0.85,-0.50,0.30,0.50],
+"progress-bars":[-0.60,0.20,-0.90,0.30],
+"unlockables":[-0.10,0.00,-0.10,0.35],
+"limited-events":[-0.50,0.75,0.20,0.50],
+"countdown-fomo":[-0.95,0.85,-0.85,0.75],
+"artificial-scarcity":[-0.35,0.40,-0.30,0.60],
+"energy-systems":[-0.20,0.50,0.15,0.55],
+"appointment":[0.00,-0.15,-0.45,0.30],
+"seasons":[0.55,-0.40,0.60,0.45],
+"leaderboards":[-0.25,0.10,-0.40,0.50],
+"guilds":[0.70,-0.75,0.75,0.80],
+"gifting":[-0.15,-0.45,-0.20,0.40],
+"social-proof":[-0.80,0.15,-0.70,0.45],
+"status-display":[0.30,-0.55,-0.15,0.50],
+"referral":[-0.30,-0.60,0.05,0.65],
+"public-commitment":[-0.45,-0.25,-0.60,0.40],
+"avatars":[-0.55,-0.20,0.50,0.20],
+"badges-titles":[-0.35,-0.05,-0.55,0.20],
+"initiation":[-0.05,-0.65,0.25,0.85],
+"costly-signaling":[0.40,-0.60,0.10,0.60],
+"identity-fusion":[0.90,-0.90,0.85,0.95],
+"uniforms":[0.10,-0.40,-0.25,0.30],
+"virtual-currency":[-0.40,0.05,0.45,0.55],
+"dual-currency":[-0.50,0.25,0.55,0.70],
+"sunk-cost":[0.75,-0.70,-0.05,0.80],
+"endowment":[-0.65,-0.10,-0.35,0.45],
+"collections":[0.20,-0.20,0.30,0.55],
+"trading":[0.60,-0.65,0.90,0.75],
+"habit-loop":[0.35,-0.45,-0.50,0.55],
+"ritual-framing":[0.05,-0.50,-0.70,0.25],
+"daily-quests":[-0.45,0.35,-0.30,0.40],
+"sabbath":[0.50,-0.35,-0.65,0.15],
+"epic-meaning":[0.25,-0.80,0.20,0.70],
+"curiosity-gap":[-0.88,0.65,-0.80,0.50],
+"heros-journey":[-0.15,-0.30,0.35,0.30],
+"esoteric":[0.65,-0.55,0.40,0.55],
+"loss-aversion":[-0.70,0.10,-0.45,0.75],
+"love-bombing":[-0.92,0.40,-0.10,0.90],
+"us-vs-them":[-0.05,-0.70,-0.20,0.90],
+"fear-relief":[-0.78,0.50,-0.15,0.92],
+"exit-costs":[0.80,-0.85,0.50,0.90],
+"reward-schedules":[-0.10,0.15,0.00,0.60],
+"chain-schedules":[0.30,-0.15,0.15,0.45],
+"behavioral-contrast":[-0.55,0.45,-0.40,0.50],
+"extinction":[0.10,0.90,-0.55,0.65],
+"lottery":[-0.82,0.30,-0.60,0.70],
+"modifiers":[-0.50,0.20,-0.50,0.25],
+"avoidance-schedules":[-0.25,-0.60,0.05,0.95],
+"disincentives":[-0.60,0.35,-0.40,0.55],
+"overjustification":[0.40,0.60,-0.20,0.50],
+"shell-game":[-0.65,0.25,-0.25,0.65],
+"free-lunch":[-0.72,0.05,-0.55,0.30],
+"rolling-prizes":[-0.42,0.42,-0.05,0.45],
+"communal-discovery":[0.15,-0.50,0.55,0.50],
+"social-fabric":[0.78,-0.80,0.65,0.70],
+"envy-voyeurism":[-0.58,0.18,-0.35,0.50],
+"unfair-arenas":[-0.20,0.55,-0.30,0.35],
+"privacy-broadcast":[-0.38,-0.05,-0.15,0.55],
+"psychological-ownership":[0.52,-0.72,0.05,0.60],
+"fun-once":[-0.85,0.72,-0.75,0.20],
+"behavioral-momentum":[0.62,-0.42,-0.35,0.40],
+"blissful-productivity":[0.35,-0.62,0.45,0.50],
+"urgent-optimism":[-0.48,-0.18,0.10,0.40],
+"core-loop":[-0.28,-0.38,0.70,0.85],
+"endless-games":[0.68,-0.58,0.80,0.70],
+"meta-game":[0.88,-0.68,0.88,0.60],
+"companion-gaming":[0.22,-0.28,0.62,0.40],
+"cascading-information":[-0.68,0.08,-0.48,0.35],
+"delayed-feedback":[-0.32,0.02,-0.28,0.30],
+"positive-feedback":[-0.12,-0.52,0.28,0.65],
+"negative-feedback":[0.02,-0.12,0.38,0.40],
+"friction-design":[-0.22,-0.08,-0.62,0.35],
+"juice":[-0.95,0.20,0.18,0.30],
+"fail-states":[-0.42,-0.15,-0.08,0.45],
+"meaningful-choice":[0.08,-0.48,0.48,0.55],
+"risk-reward":[-0.52,-0.22,-0.12,0.50],
+"difficulty-flow":[0.18,-0.58,0.72,0.75],
+"skill-depth":[0.82,-0.78,0.92,0.65],
+"grinding":[0.42,0.28,0.08,0.40],
+"power-creep":[0.72,0.68,0.42,0.50],
+"sinks-faucets":[0.58,-0.32,0.78,0.60],
+"crafting":[0.28,-0.62,0.58,0.50],
+"battle-pass":[-0.08,0.38,0.68,0.65],
+"ranked-ladders":[0.48,-0.44,0.82,0.80],
+"ugc-modding":[0.66,-0.86,0.86,0.72],
+"roles-asymmetry":[0.38,-0.66,0.52,0.60]
+};
+
+const LENSES = {
+  psych: {
+    name:'Psychology',
+    note:'Every mechanic, plotted · horizontal — who it works on · vertical — how it pulls · tap any point to open its dossier',
+    xNeg:'◀ ME · WORKS ON A PRIVATE MIND', xPos:'WORKS ON THE GROUP · WE ▶',
+    yNeg:'▲ CARROT · PULLS WITH DESIRE', yPos:'▼ STICK · PUSHES WITH FEAR OF LOSS',
+    quads:['private desire','shared desire','private pressure','communal pressure'],
+    tok:{xn:'ME',xp:'WE',yn:'CARROT',yp:'STICK'},
+    pos: m => [m.x, m.y],
+  },
+  tempo: {
+    name:'Tempo',
+    note:'Same specimens, new axes · horizontal — how fast it hooks · vertical — what happens when you stop feeding it',
+    xNeg:'◀ INSTANT · HOOKS ON FIRST CONTACT', xPos:'SLOW BURN · HOOKS OVER WEEKS ▶',
+    yNeg:'▲ COMPOUNDS · RUNS ON ITS OWN', yPos:'▼ DECAYS · NEEDS CONSTANT FEEDING',
+    quads:['lightning that lasts','slow magic','sugar rush','high maintenance'],
+    tok:{xn:'FAST',xp:'SLOW',yn:'COMPOUNDS',yp:'DECAYS'},
+    pos: m => (ALT[m.id]||[0,0,0,0]).slice(0,2),
+  },
+  builder: {
+    name:"Builder's",
+    note:"The founder's view · horizontal — effort to ship it · vertical — how hard it grabs once live",
+    xNeg:'◀ WEEKEND · SHIP IT IN DAYS', xPos:'QUARTER · A REAL SYSTEM ▶',
+    yNeg:'▲ GENTLE NUDGE', yPos:'▼ INDUSTRIAL STRENGTH',
+    quads:['light touches','slow scaffolding','power tools','heavy machinery'],
+    tok:{xn:'DAYS',xp:'QUARTERS',yn:'NUDGE',yp:'HEAVY'},
+    pos: m => (ALT[m.id]||[0,0,0,0]).slice(2,4),
+  },
+};
 </script>
 <script>
 const $ = (q,root=document)=>root.querySelector(q);
 const byId = Object.fromEntries(DATA.map(m=>[m.id,m]));
 const CAT_ORDER = Object.keys(CATS);
-const state = {view:'map', q:'', cats:new Set(), risks:new Set()};
+const state = {view:'map', q:'', cats:new Set(), risks:new Set(), lens:'psych'};
 
 /* keep masthead counts honest */
 const N_SIGHT = DATA.reduce((s,m)=>s+m.ex.length,0);
@@ -1806,8 +2084,19 @@ const px = x => PAD + (x+1)/2*(W-2*PAD);
 const py = y => PAD + (y+1)/2*(H-2*PAD);
 const FINE = matchMedia('(hover: hover) and (pointer: fine)');
 
+function renderLensRow(){
+  const row=$('#lensRow');
+  row.innerHTML = `<span class="lens-label">Lens</span>` + Object.entries(LENSES).map(([k,l])=>
+    `<button class="lens ${state.lens===k?'on':''}" data-lens="${k}">${l.name}</button>`).join('');
+  row.querySelectorAll('[data-lens]').forEach(b=>b.onclick=()=>{
+    state.lens=b.dataset.lens; renderAll();
+  });
+  $('#atlasNote').textContent = LENSES[state.lens].note;
+}
+
 function renderMap(){
   const svg = $('#atlasSvg');
+  const lens = LENSES[state.lens];
   svg.setAttribute('viewBox',`0 0 ${W} ${H}`);
   const ok = new Set(filtered().map(m=>m.id));
   let g = '';
@@ -1819,19 +2108,20 @@ function renderMap(){
     g += `<line x1="${PAD}" y1="${py(v)}" x2="${W-PAD}" y2="${py(v)}" stroke="${c}" stroke-width="1"/>`;
   }
   /* axis + quadrant labels */
-  g += `<text class="axis-label" x="${PAD}" y="${H-PAD+30}" text-anchor="start">◀ ME · WORKS ON A PRIVATE MIND</text>`;
-  g += `<text class="axis-label" x="${W-PAD}" y="${H-PAD+30}" text-anchor="end">WORKS ON THE GROUP · WE ▶</text>`;
-  g += `<text class="axis-label" x="${PAD-14}" y="${PAD-4}" text-anchor="start">▲ CARROT · PULLS WITH DESIRE</text>`;
-  g += `<text class="axis-label" x="${PAD-14}" y="${H-PAD+14}" text-anchor="start">▼ STICK · PUSHES WITH FEAR OF LOSS</text>`;
-  g += `<text class="quad-label" x="${px(-0.5)}" y="${py(-0.88)}" text-anchor="middle">private desire</text>`;
-  g += `<text class="quad-label" x="${px(0.5)}" y="${py(-0.88)}" text-anchor="middle">shared desire</text>`;
-  g += `<text class="quad-label" x="${px(-0.5)}" y="${py(0.93)}" text-anchor="middle">private pressure</text>`;
-  g += `<text class="quad-label" x="${px(0.5)}" y="${py(0.93)}" text-anchor="middle">communal pressure</text>`;
+  g += `<text class="axis-label" x="${PAD}" y="${H-PAD+30}" text-anchor="start">${lens.xNeg}</text>`;
+  g += `<text class="axis-label" x="${W-PAD}" y="${H-PAD+30}" text-anchor="end">${lens.xPos}</text>`;
+  g += `<text class="axis-label" x="${PAD-14}" y="${PAD-4}" text-anchor="start">${lens.yNeg}</text>`;
+  g += `<text class="axis-label" x="${PAD-14}" y="${H-PAD+14}" text-anchor="start">${lens.yPos}</text>`;
+  g += `<text class="quad-label" x="${px(-0.5)}" y="${py(-0.88)}" text-anchor="middle">${lens.quads[0]}</text>`;
+  g += `<text class="quad-label" x="${px(0.5)}" y="${py(-0.88)}" text-anchor="middle">${lens.quads[1]}</text>`;
+  g += `<text class="quad-label" x="${px(-0.5)}" y="${py(0.93)}" text-anchor="middle">${lens.quads[2]}</text>`;
+  g += `<text class="quad-label" x="${px(0.5)}" y="${py(0.93)}" text-anchor="middle">${lens.quads[3]}</text>`;
   g += `<g id="cross"></g>`;
   /* labels with greedy collision nudging */
   const placed=[];
   const labelFor = (m)=>{
-    const cx=px(m.x), cy=py(m.y), w=m.n.length*5.4, h=11;
+    const [mx,my]=lens.pos(m);
+    const cx=px(mx), cy=py(my), w=m.n.length*5.4, h=11;
     const cands=[[9,3,'start'],[-9,3,'end'],[0,-11,'middle'],[0,15,'middle']];
     for(const [dx,dy,an] of cands){
       const bx = an==='start'?cx+dx : an==='end'?cx+dx-w : cx-w/2;
@@ -1844,9 +2134,10 @@ function renderMap(){
     return '';
   };
   let dots='', labels='';
-  const sorted=[...DATA].sort((a,b)=>py(a.y)-py(b.y));
+  const sorted=[...DATA].sort((a,b)=>lens.pos(a)[1]-lens.pos(b)[1]);
   for(const m of sorted){
-    const cx=px(m.x), cy=py(m.y), col=CATS[m.c].c, off=ok.has(m.id)?'':'dim-out';
+    const [mx,my]=lens.pos(m);
+    const cx=px(mx), cy=py(my), col=CATS[m.c].c, off=ok.has(m.id)?'':'dim-out';
     if(m.risk===3) dots+=`<circle class="dot-halo ${off}" cx="${cx}" cy="${cy}" r="11" stroke="${col}" stroke-dasharray="2 3" style="opacity:${ok.has(m.id)?0.55:0.05}"/>`;
     dots+=`<circle class="dot ${off}" data-id="${m.id}" cx="${cx}" cy="${cy}" r="6.5" fill="${col}" stroke="#0c1719" stroke-width="1.5"><title>${m.n}</title></circle>`;
     dots+=`<circle class="dot-hit" data-id="${m.id}" cx="${cx}" cy="${cy}" r="15"><title>${m.n}</title></circle>`;
@@ -1864,11 +2155,12 @@ function renderMap(){
         tip.innerHTML=`<div class="tc" style="color:${CATS[m.c].c}">${CATS[m.c].name} · ${RISKS[m.risk][0]}</div>
           <div class="tn">${m.n}</div><div class="tt">${m.tag}</div>`;
         tip.classList.add('show');
-        const cx=px(m.x), cy=py(m.y);
+        const [mx,my]=lens.pos(m);
+        const cx=px(mx), cy=py(my);
         cross.innerHTML=`<g class="cross">
           <line x1="${PAD}" y1="${cy}" x2="${cx}" y2="${cy}"/><line x1="${cx}" y1="${cy}" x2="${cx}" y2="${H-PAD}"/>
-          <text x="${cx}" y="${H-PAD-8}" text-anchor="middle">${m.x<0?'ME':'WE'} ${Math.abs(m.x).toFixed(2)}</text>
-          <text x="${PAD+6}" y="${cy-6}">${m.y<0?'CARROT':'STICK'} ${Math.abs(m.y).toFixed(2)}</text></g>`;
+          <text x="${cx}" y="${H-PAD-8}" text-anchor="middle">${mx<0?lens.tok.xn:lens.tok.xp} ${Math.abs(mx).toFixed(2)}</text>
+          <text x="${PAD+6}" y="${cy-6}">${my<0?lens.tok.yn:lens.tok.yp} ${Math.abs(my).toFixed(2)}</text></g>`;
       });
       d.addEventListener('mousemove',e=>{
         const r=box.getBoundingClientRect();
@@ -1949,6 +2241,7 @@ function briefFor(m){
 /* ---------- dossier panel ---------- */
 function openPanel(id){
   const m=byId[id]; if(!m) return;
+  closeModal();
   const c=CATS[m.c];
   $('#panel').innerHTML=`<div class="panel-in">
     <button class="p-close" id="pclose">Close ✕</button>
@@ -1959,7 +2252,11 @@ function openPanel(id){
     <div class="p-actions">
       <button class="deal" id="copyBrief">Copy founder brief</button>
       <button class="deal" id="copyLink">Copy link</button>
+      <button class="deal" id="stackBtn">${stack.includes(m.id)?'− Remove from stack':'＋ Add to stack'}</button>
+      <button class="deal" id="cardBtn">Share card</button>
+      ${aiReady()?`<button class="deal" id="applyBtn">⚡ Apply to my company</button>`:''}
     </div>
+    <div class="sect" id="aiSect" hidden></div>
     <div class="sect"><div class="sh">What it is</div><p>${m.def}</p></div>
     <div class="sect"><div class="sh">In the brain <em>· why it works on one person</em></div><p>${m.brain}</p></div>
     <div class="sect"><div class="sh">In the group <em>· why it spreads through many</em></div><p>${m.soc}</p></div>
@@ -1988,6 +2285,10 @@ function openPanel(id){
   if(FINE.matches) $('#pclose').focus();
   $('#copyBrief').onclick=()=>copyText(briefFor(m),'Founder brief copied');
   $('#copyLink').onclick=()=>copyText(location.origin+location.pathname+`#m=${m.id}`,'Link copied');
+  $('#stackBtn').onclick=()=>{toggleStack(m.id);$('#stackBtn').textContent=stack.includes(m.id)?'− Remove from stack':'＋ Add to stack';};
+  $('#cardBtn').onclick=()=>shareCard(m);
+  const applyBtn=$('#applyBtn');
+  if(applyBtn) applyBtn.onclick=()=>applyToCompany(m);
   document.querySelectorAll('.ptag').forEach(b=>b.onclick=()=>{
     state.q=b.dataset.t; $('#q').value=state.q; closePanel(); setView('lib'); renderAll();
   });
@@ -1998,11 +2299,435 @@ function closePanel(){
   document.body.style.overflow='';
   if(location.hash.startsWith('#m=')) history.replaceState(null,'',location.pathname+location.search);
 }
-$('#scrim').onclick=closePanel;
+$('#scrim').onclick=()=>{ if($('#modal').classList.contains('show')) closeModal(); else closePanel(); };
 document.addEventListener('keydown',e=>{
-  if(e.key==='Escape') closePanel();
-  if(e.key==='/' && document.activeElement!==$('#q')){e.preventDefault();$('#q').focus();}
+  if(e.key==='Escape'){ if($('#modal').classList.contains('show')) closeModal(); else closePanel(); }
+  if(e.key==='/' && document.activeElement!==$('#q') && !$('#modal').classList.contains('show')){e.preventDefault();$('#q').focus();}
 });
+
+/* ---------- helpers ---------- */
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function hashStr(s){let h=0;for(let i=0;i<s.length;i++){h=(h*31+s.charCodeAt(i))|0}return (h>>>0).toString(36);}
+function shuffle(a){const r=[...a];for(let i=r.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[r[i],r[j]]=[r[j],r[i]];}return r;}
+const siteLink=()=>location.origin.startsWith('http')?location.origin+location.pathname:location.href.split('#')[0];
+
+/* ---------- modal ---------- */
+function openModal(html){
+  $('#modal').innerHTML=html;
+  $('#modal').classList.add('show'); $('#scrim').classList.add('show');
+  document.body.style.overflow='hidden';
+  $('#modal').scrollTop=0;
+  const c=$('#modal').querySelector('.m-close'); if(c)c.onclick=closeModal;
+}
+function closeModal(){
+  $('#modal').classList.remove('show');
+  if(!$('#panel').classList.contains('show')){
+    $('#scrim').classList.remove('show'); document.body.style.overflow='';
+  }
+}
+
+/* ---------- settings (bring your own key) ---------- */
+const SETTINGS_KEY='ha_settings';
+function getSettings(){ try{return JSON.parse(localStorage.getItem(SETTINGS_KEY))||{}}catch(e){return {}} }
+function saveSettings(s){ localStorage.setItem(SETTINGS_KEY,JSON.stringify(s)); }
+function aiReady(){ const s=getSettings(); return !!(s.key&&s.key.trim()&&s.company&&s.company.trim()); }
+function defaultModel(provider){ return provider==='openai'?'gpt-4o':'claude-opus-4-8'; }
+
+function openSettings(){
+  const s=getSettings();
+  openModal(`<div class="modal-in">
+    <button class="m-close">Close ✕</button>
+    <div class="m-head">Settings</div>
+    <h2>Apply the atlas to <span class="tilt" style="font-style:italic">your</span> company</h2>
+    <p class="mp">Add an API key and describe your business, and every dossier grows an <b style="color:var(--bone)">⚡ Apply to my company</b> button — eight divergent ways that mechanic could work for you, bad ideas included on purpose. Your stack gets a critique button, and the splice lab starts generating hybrids.</p>
+    <div class="field"><label for="setProvider">Provider</label>
+      <select id="setProvider">
+        <option value="anthropic" ${s.provider!=='openai'?'selected':''}>Anthropic (Claude)</option>
+        <option value="openai" ${s.provider==='openai'?'selected':''}>OpenAI</option>
+      </select></div>
+    <div class="field"><label for="setKey">API key</label>
+      <input id="setKey" type="password" autocomplete="off" placeholder="sk-…" value="${esc(s.key||'')}">
+      <div class="hint">Lives only in this browser's localStorage. Calls go straight from your browser to the provider — this site has no server and phones nothing home.</div></div>
+    <div class="field"><label for="setModel">Model · optional</label>
+      <input id="setModel" type="text" autocomplete="off" placeholder="${esc(defaultModel(s.provider||'anthropic'))}" value="${esc(s.model||'')}"></div>
+    <div class="field"><label for="setCompany">Your company</label>
+      <textarea id="setCompany" placeholder="What you make, who it's for, how you charge, and where engagement matters. A few honest sentences beat a pitch deck.">${esc(s.company||'')}</textarea></div>
+    <div class="m-note">Use a scoped, revocable key, and skip this on a shared computer — anything in localStorage is readable by whoever opens this browser.</div>
+    <div class="m-actions">
+      <button class="deal primary" id="setSave">Save</button>
+      <button class="deal" id="setForget">Forget everything</button>
+    </div>
+  </div>`);
+  $('#setProvider').onchange=e=>{$('#setModel').placeholder=defaultModel(e.target.value);};
+  $('#setSave').onclick=()=>{
+    saveSettings({provider:$('#setProvider').value,key:$('#setKey').value.trim(),
+      model:$('#setModel').value.trim(),company:$('#setCompany').value.trim()});
+    closeModal(); renderTray();
+    toast(aiReady()?'Saved — dossiers now have an ⚡ button':'Saved');
+  };
+  $('#setForget').onclick=()=>{
+    localStorage.removeItem(SETTINGS_KEY);
+    Object.keys(localStorage).filter(k=>k.startsWith('ha_ideas:')).forEach(k=>localStorage.removeItem(k));
+    closeModal(); renderTray(); toast('Forgotten');
+  };
+}
+
+/* ---------- LLM plumbing (browser-direct, user's own key) ---------- */
+async function safeFetch(url,opts){
+  try{ return await fetch(url,opts); }
+  catch(e){ throw new Error('Could not reach '+new URL(url).host+' — check your connection or ad blocker and try again.'); }
+}
+async function llm(prompt,maxTokens=3000){
+  const s=getSettings();
+  if(!s.key) throw new Error('No API key — open ⚙ settings first.');
+  if((s.provider||'anthropic')==='anthropic'){
+    const res=await safeFetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{
+        'content-type':'application/json',
+        'x-api-key':s.key,
+        'anthropic-version':'2023-06-01',
+        'anthropic-dangerous-direct-browser-access':'true'
+      },
+      body:JSON.stringify({model:s.model||defaultModel('anthropic'),max_tokens:maxTokens,
+        messages:[{role:'user',content:prompt}]})
+    });
+    if(!res.ok){const e=await res.json().catch(()=>null);throw new Error(e?.error?.message||('Anthropic API error '+res.status));}
+    const data=await res.json();
+    return (data.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('');
+  }
+  const res=await safeFetch('https://api.openai.com/v1/chat/completions',{
+    method:'POST',
+    headers:{'content-type':'application/json','authorization':'Bearer '+s.key},
+    body:JSON.stringify({model:s.model||defaultModel('openai'),max_completion_tokens:maxTokens,
+      messages:[{role:'user',content:prompt}]})
+  });
+  if(!res.ok){const e=await res.json().catch(()=>null);throw new Error(e?.error?.message||('OpenAI API error '+res.status));}
+  const data=await res.json();
+  return data.choices?.[0]?.message?.content||'';
+}
+function parseJsonArray(text){
+  const m=String(text).match(/\[[\s\S]*\]/);
+  if(!m) throw new Error('Model reply was not parseable JSON — try regenerating.');
+  return JSON.parse(m[0]);
+}
+const ideaHtml=(i,n)=>`<div class="idea"><div class="it">${n+1}. ${esc(i.t)}</div><div class="idsc">${esc(i.d)}</div>${i.risk?`<div class="irisk"><b>WATCH ·</b> ${esc(i.risk)}</div>`:''}</div>`;
+const ideasText=(title,ideas)=>[title,'',...ideas.map((i,n)=>`${n+1}. ${i.t}\n${i.d}${i.risk?'\nWatch: '+i.risk:''}`)].join('\n\n');
+
+/* ---------- ⚡ apply a mechanic to your company ---------- */
+function applyPrompt(m){
+  const s=getSettings();
+  return `${briefFor(m)}
+
+The company:
+${s.company}
+
+Task: brainstorm 8 different ways the mechanic above could apply to this company. This is deliberate divergent thinking — range from the obvious move to the weird one. Include at least two ideas that are probably bad but interesting, and be honest wherever the mechanic could curdle into a dark pattern for this specific business. Each idea should be concrete enough to sketch on a whiteboard.
+
+Respond with ONLY a JSON array, no prose before or after:
+[{"t":"3-6 word idea name","d":"2-3 sentences on how it works for this company","risk":"one-line honest caution, or empty string"}]`;
+}
+async function applyToCompany(m,force){
+  const sect=$('#aiSect'); if(!sect) return;
+  sect.hidden=false;
+  sect.innerHTML=`<div class="sh">Applied to your company</div><div class="ai-note"><span class="spin"></span>Brainstorming eight applications — the point is range, not polish…</div>`;
+  const s=getSettings();
+  const cacheKey='ha_ideas:'+m.id+':'+hashStr((s.company||'')+(s.model||'')+(s.provider||''));
+  try{
+    let ideas=null;
+    if(!force){ try{ideas=JSON.parse(localStorage.getItem(cacheKey))}catch(e){} }
+    if(!ideas){
+      ideas=parseJsonArray(await llm(applyPrompt(m)));
+      try{localStorage.setItem(cacheKey,JSON.stringify(ideas))}catch(e){}
+    }
+    sect.innerHTML=`<div class="sh">Applied to your company <em>· divergent thinking — bad ideas included on purpose</em></div>`
+      +ideas.map(ideaHtml).join('')
+      +`<div class="m-actions"><button class="deal" id="ideasCopy">Copy ideas</button><button class="deal" id="ideasAgain">Regenerate</button></div>`;
+    $('#ideasCopy').onclick=()=>copyText(ideasText(`${m.n} — applied to my company (via the Hook Atlas)`,ideas),'Ideas copied');
+    $('#ideasAgain').onclick=()=>applyToCompany(m,true);
+  }catch(err){
+    sect.innerHTML=`<div class="sh">Applied to your company</div><div class="ai-err">${esc(err.message)}</div>`;
+  }
+}
+
+/* ---------- splice lab ---------- */
+let spliceA=null, spliceB=null;
+function miniCard(m){
+  return `<button class="mini-card" style="--c:${CATS[m.c].c}" data-open="${m.id}">
+    <span class="mc">${CATS[m.c].name} · ${RISKS[m.risk][0]}</span><h3>${m.n}</h3><span class="mt">${m.tag}</span></button>`;
+}
+function splicePrompt(a,b){
+  const s=getSettings();
+  return `Two engagement mechanics from a field guide:
+
+=== MECHANIC A ===
+${briefFor(a)}
+
+=== MECHANIC B ===
+${briefFor(b)}
+
+Task: invent 5 product concepts that genuinely FUSE both mechanics into one loop (not one mechanic bolted onto the other).${s.company?` Where natural, lean toward ideas relevant to this company: ${s.company}`:''} Divergent thinking — range from plausible to weird, and note honestly where a hybrid would turn predatory.
+
+Respond with ONLY a JSON array, no prose before or after:
+[{"t":"3-6 word concept name","d":"2-3 sentences on the fused loop","risk":"one-line honest caution, or empty string"}]`;
+}
+function dealSplicePair(){
+  const pool=filtered().length>=2?filtered():DATA;
+  spliceA=pool[Math.floor(Math.random()*pool.length)];
+  spliceB=spliceA;
+  while(spliceB.id===spliceA.id) spliceB=pool[Math.floor(Math.random()*pool.length)];
+}
+function openSplice(reroll){
+  if(reroll||!spliceA) dealSplicePair();
+  openModal(`<div class="modal-in">
+    <button class="m-close">Close ✕</button>
+    <div class="m-head">Splice lab</div>
+    <h2>What product is <em class="tilt" style="font-style:italic">both</em> of these?</h2>
+    <p class="mp">Duolingo is streaks × loss aversion. Fortnite's pass is appointment × sunk cost. Great products are crossbreeds — here are two specimens; imagine their offspring.</p>
+    <div class="splice-pair">${miniCard(spliceA)}<div class="splice-x">×</div>${miniCard(spliceB)}</div>
+    <div class="m-actions">
+      <button class="deal" id="spliceReroll">Deal again</button>
+      ${aiReady()||getSettings().key?'<button class="deal primary" id="spliceGen">⚡ Generate 5 hybrids</button>':''}
+      <button class="deal" id="spliceCopyPrompt">Copy prompt for any AI</button>
+    </div>
+    <div id="spliceOut" style="margin-top:14px"></div>
+    ${getSettings().key?'':'<p class="mp" style="margin-top:12px;font-size:12.5px">Add an API key in ⚙ settings and this button generates the hybrids right here.</p>'}
+  </div>`);
+  $('#modal').querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>{closeModal();openPanel(b.dataset.open);});
+  $('#spliceReroll').onclick=()=>openSplice(true);
+  $('#spliceCopyPrompt').onclick=()=>copyText(splicePrompt(spliceA,spliceB),'Splice prompt copied — paste it into any AI chat');
+  const gen=$('#spliceGen');
+  if(gen) gen.onclick=async()=>{
+    const out=$('#spliceOut');
+    out.innerHTML=`<div class="ai-note"><span class="spin"></span>Crossbreeding ${esc(spliceA.n)} × ${esc(spliceB.n)}…</div>`;
+    try{
+      const ideas=parseJsonArray(await llm(splicePrompt(spliceA,spliceB)));
+      out.innerHTML=ideas.map(ideaHtml).join('')
+        +`<div class="m-actions"><button class="deal" id="spliceCopy">Copy hybrids</button></div>`;
+      $('#spliceCopy').onclick=()=>copyText(ideasText(`${spliceA.n} × ${spliceB.n} — hybrids (via the Hook Atlas)`,ideas),'Hybrids copied');
+    }catch(err){ out.innerHTML=`<div class="ai-err">${esc(err.message)}</div>`; }
+  };
+}
+
+/* ---------- field exam ---------- */
+let exam=null;
+function maskMechanic(text,m){
+  let t=text;
+  for(const w of m.n.split(/[^A-Za-z']+/).filter(w=>w.length>3)){
+    t=t.replace(new RegExp(w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'gi'),'▮▮▮');
+  }
+  return t;
+}
+function buildExam(){
+  const qs=shuffle(DATA).slice(0,10).map(m=>{
+    const e=m.ex[Math.floor(Math.random()*m.ex.length)];
+    const sameCat=shuffle(DATA.filter(x=>x.c===m.c&&x.id!==m.id)).slice(0,2);
+    const others=shuffle(DATA.filter(x=>x.c!==m.c&&x.id!==m.id));
+    const opts=shuffle([m,...sameCat,...others.slice(0,3-sameCat.length)]);
+    return {m,e,opts};
+  });
+  return {qs,i:0,score:0,grid:[]};
+}
+function openExam(){ exam=buildExam(); renderExamQ(); }
+function renderExamQ(){
+  const q=exam.qs[exam.i];
+  openModal(`<div class="modal-in">
+    <button class="m-close">Close ✕</button>
+    <div class="m-head">Field exam</div>
+    <div class="exam-q">
+      <div class="exam-meta"><span>Sighting ${exam.i+1} of ${exam.qs.length}</span><span>${exam.score} correct</span></div>
+      <div class="exam-sight">
+        <div class="sn">${esc(maskMechanic(q.e.n,q.m))} <span class="dm" style="font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)">· ${DOMS[q.e.d]}</span></div>
+        <div class="st">${esc(maskMechanic(q.e.t,q.m))}</div>
+      </div>
+      <div class="exam-opts">${q.opts.map(o=>`<button class="exam-opt" data-id="${o.id}">${o.n}</button>`).join('')}</div>
+      <div id="examNext" style="margin-top:12px"></div>
+    </div>
+  </div>`);
+  $('#modal').querySelectorAll('.exam-opt').forEach(b=>b.onclick=()=>{
+    const right=b.dataset.id===q.m.id;
+    if(right) exam.score++;
+    exam.grid.push(right?'🟩':'🟥');
+    $('#modal').querySelectorAll('.exam-opt').forEach(x=>{
+      x.disabled=true;
+      if(x.dataset.id===q.m.id) x.classList.add('right');
+      else if(x===b) x.classList.add('wrong');
+    });
+    $('#examNext').innerHTML=`<div class="m-actions">
+      <button class="deal" id="examOpen">Read the dossier</button>
+      <button class="deal primary" id="examGo">${exam.i+1<exam.qs.length?'Next sighting →':'See my score'}</button></div>`;
+    $('#examOpen').onclick=()=>{closeModal();openPanel(q.m.id);};
+    $('#examGo').onclick=()=>{exam.i++;exam.i<exam.qs.length?renderExamQ():renderExamScore();};
+  });
+}
+function renderExamScore(){
+  const n=exam.qs.length, s=exam.score;
+  const verdict=s>=9?'Field naturalist. You see the machinery everywhere now — sorry about that.'
+    :s>=7?'Sharp eye. You can name the loop before it names you.'
+    :s>=5?'Solid instincts — the hazard specimens still sneak past you.'
+    :'The hooks are working on you. Read a few dossiers and retake it.';
+  const share=`The Hook Atlas · Field Exam\n${exam.grid.join('')} ${s}/${n}\nCan you name the mechanic from the sighting? ${siteLink()}`;
+  openModal(`<div class="modal-in">
+    <button class="m-close">Close ✕</button>
+    <div class="m-head">Field exam · results</div>
+    <div class="exam-grid">${exam.grid.join('')}</div>
+    <div class="exam-score">${s}/${n}</div>
+    <p class="mp">${verdict}</p>
+    <div class="m-actions">
+      <button class="deal primary" id="examShare">Copy score to share</button>
+      <button class="deal" id="examRetake">Retake with new sightings</button>
+    </div>
+  </div>`);
+  $('#examShare').onclick=()=>copyText(share,'Score copied — go brag');
+  $('#examRetake').onclick=openExam;
+}
+
+/* ---------- your hook stack ---------- */
+let stack=[];
+try{stack=(JSON.parse(localStorage.getItem('ha_stack'))||[]).filter(id=>byId[id]);}catch(e){}
+function saveStackLS(){ localStorage.setItem('ha_stack',JSON.stringify(stack)); }
+function toggleStack(id){
+  if(stack.includes(id)){ stack=stack.filter(x=>x!==id); toast('Removed from your stack'); }
+  else { stack.push(id); toast('Added — your stack is at the bottom of the page'); }
+  saveStackLS(); renderTray();
+}
+function stackBrief(){
+  const head=`MY HOOK STACK — ${stack.length} mechanics, assembled from the Hook Atlas (${siteLink()})`;
+  return [head,'',...stack.map((id,i)=>`══ ${i+1}. ${byId[id].n} ══\n\n${briefFor(byId[id])}`)].join('\n\n');
+}
+function critiquePrompt(){
+  const s=getSettings();
+  return `A founder assembled this "hook stack" — the engagement mechanics they plan to combine in one product:
+
+${stack.map((id,i)=>`=== ${i+1}. ${byId[id].n} ===\n${briefFor(byId[id])}`).join('\n\n')}
+${s.company?`\nTheir company: ${s.company}\n`:''}
+Critique this stack as a veteran game-economy designer who has also read the dark-patterns literature. Cover, in plain prose paragraphs: (1) which mechanics genuinely reinforce each other and why, (2) which combinations conflict or cannibalize, (3) what's missing — the load-bearing mechanic they haven't picked, (4) where this exact combination drifts into dark-pattern territory and the honest guardrail. Be direct and specific. No headers, no bullet lists — 4 tight paragraphs.`;
+}
+function renderTray(){
+  const t=$('#tray');
+  if(!stack.length){ t.hidden=true; document.body.classList.remove('has-tray'); t.innerHTML=''; return; }
+  const fams=new Set(stack.map(id=>byId[id].c)).size;
+  const haz=stack.filter(id=>byId[id].risk===3).length;
+  t.hidden=false; document.body.classList.add('has-tray');
+  t.innerHTML=`<div class="tray-in">
+    <span class="tl">Your stack</span>
+    <span class="tread">${stack.length} mechanic${stack.length>1?'s':''} · ${fams} famil${fams>1?'ies':'y'}${haz?` · ${haz} hazard`:''}</span>
+    <div class="tray-chips">${stack.map(id=>{const m=byId[id];
+      return `<span class="schip" style="--c:${CATS[m.c].c}" data-id="${id}">${m.n}<button class="x" data-x="${id}" aria-label="Remove ${m.n}">✕</button></span>`}).join('')}</div>
+    <div class="tray-actions">
+      <button class="deal" id="trayBrief">Copy stack brief</button>
+      <button class="deal" id="trayLink">Copy stack link</button>
+      ${aiReady()?'<button class="deal" id="trayCritique">⚡ Critique</button>':''}
+      <button class="deal" id="trayClear">Clear</button>
+    </div></div>`;
+  t.querySelectorAll('.schip').forEach(c=>c.onclick=e=>{
+    if(e.target.dataset.x){ toggleStack(e.target.dataset.x); e.stopPropagation(); return; }
+    openPanel(c.dataset.id);
+  });
+  $('#trayBrief').onclick=()=>copyText(stackBrief(),'Stack brief copied');
+  $('#trayLink').onclick=()=>copyText(siteLink()+'#stack='+stack.join(','),'Stack link copied — send it to a cofounder');
+  $('#trayClear').onclick=()=>{stack=[];saveStackLS();renderTray();toast('Stack cleared');};
+  const cr=$('#trayCritique');
+  if(cr) cr.onclick=async()=>{
+    openModal(`<div class="modal-in"><button class="m-close">Close ✕</button>
+      <div class="m-head">Stack critique</div><h2>Reading your architecture…</h2>
+      <div class="ai-note"><span class="spin"></span>Synergies, conflicts, missing pieces, dark-pattern drift.</div>
+      <div class="critique-body" id="critOut"></div></div>`);
+    try{
+      const text=await llm(critiquePrompt(),2500);
+      $('#critOut').innerHTML=text.split(/\n\s*\n/).map(p=>`<p>${esc(p.trim())}</p>`).join('');
+      $('#modal').querySelector('h2').textContent='Your stack, critiqued';
+      $('#modal').querySelector('.ai-note').remove();
+    }catch(err){
+      const note=$('#modal').querySelector('.ai-note');
+      if(note) note.outerHTML=`<div class="ai-err">${esc(err.message)}</div>`;
+    }
+  };
+}
+
+/* ---------- specimen share card (canvas PNG) ---------- */
+function wrapText(ctx,text,maxW){
+  const words=text.split(' '), lines=[]; let line='';
+  for(const w of words){
+    const t=line?line+' '+w:w;
+    if(ctx.measureText(t).width>maxW && line){ lines.push(line); line=w; } else line=t;
+  }
+  if(line) lines.push(line);
+  return lines;
+}
+function shareCard(m){
+  const cv=document.createElement('canvas'); cv.width=1200; cv.height=630;
+  const ctx=cv.getContext('2d');
+  const col=CATS[m.c].c;
+  ctx.fillStyle='#101d20'; ctx.fillRect(0,0,1200,630);
+  const grad=ctx.createRadialGradient(600,-60,60,600,-60,700);
+  grad.addColorStop(0,'rgba(28,57,60,.5)'); grad.addColorStop(1,'rgba(28,57,60,0)');
+  ctx.fillStyle=grad; ctx.fillRect(0,0,1200,630);
+  /* mini map, right side */
+  const MX=820,MY=140,MS=330;
+  ctx.strokeStyle='#22393c'; ctx.lineWidth=1;
+  for(let i=0;i<=4;i++){
+    ctx.beginPath();ctx.moveTo(MX+MS*i/4,MY);ctx.lineTo(MX+MS*i/4,MY+MS);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(MX,MY+MS*i/4);ctx.lineTo(MX+MS,MY+MS*i/4);ctx.stroke();
+  }
+  ctx.strokeStyle='#3a5a5e';
+  ctx.beginPath();ctx.moveTo(MX+MS/2,MY);ctx.lineTo(MX+MS/2,MY+MS);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(MX,MY+MS/2);ctx.lineTo(MX+MS,MY+MS/2);ctx.stroke();
+  const lens=LENSES[state.lens];
+  const mapx=v=>MX+(v+1)/2*MS, mapy=v=>MY+(v+1)/2*MS;
+  for(const o of DATA){
+    if(o.id===m.id) continue;
+    const [ox,oy]=lens.pos(o);
+    ctx.fillStyle='rgba(156,177,172,.28)';
+    ctx.beginPath();ctx.arc(mapx(ox),mapy(oy),4,0,7);ctx.fill();
+  }
+  const [sx,sy]=lens.pos(m);
+  if(m.risk===3){
+    ctx.strokeStyle=col; ctx.setLineDash([4,5]); ctx.lineWidth=2;
+    ctx.beginPath();ctx.arc(mapx(sx),mapy(sy),22,0,7);ctx.stroke();
+    ctx.setLineDash([]);
+  }
+  ctx.fillStyle=col; ctx.strokeStyle='#0c1719'; ctx.lineWidth=3;
+  ctx.beginPath();ctx.arc(mapx(sx),mapy(sy),12,0,7);ctx.fill();ctx.stroke();
+  ctx.fillStyle='#5f7a77'; ctx.font='16px ui-monospace,Menlo,monospace'; ctx.textAlign='center';
+  ctx.fillText((lens.tok.xn+' ⟷ '+lens.tok.xp).toLowerCase(),MX+MS/2,MY+MS+34);
+  ctx.textAlign='left';
+  /* left column */
+  ctx.fillStyle=col; ctx.fillRect(64,64,44,8);
+  ctx.fillStyle='#e0a94f'; ctx.font='600 19px ui-monospace,Menlo,monospace';
+  ctx.fillText('THE HOOK ATLAS · FIELD SPECIMEN',64,110);
+  ctx.fillStyle='#eae3d2'; ctx.font='800 58px system-ui,-apple-system,sans-serif';
+  let y=178;
+  for(const line of wrapText(ctx,m.n,660)){ ctx.fillText(line,64,y); y+=64; }
+  y+=6;
+  ctx.fillStyle='#9cb1ac'; ctx.font='27px system-ui,-apple-system,sans-serif';
+  for(const line of wrapText(ctx,m.tag,650)){ ctx.fillText(line,64,y); y+=38; }
+  y+=18;
+  ctx.fillStyle=col; ctx.font='600 20px ui-monospace,Menlo,monospace';
+  ctx.fillText(CATS[m.c].name.toUpperCase()+'  ·  '+RISKS[m.risk][0],64,y);
+  y+=34;
+  ctx.fillStyle='#5f7a77'; ctx.font='18px ui-monospace,Menlo,monospace';
+  ctx.fillText(coordLabel(m),64,y);
+  ctx.fillStyle='#5f7a77'; ctx.font='17px ui-monospace,Menlo,monospace';
+  ctx.fillText('a field guide to engagement mechanics — games · business · belief',64,584);
+  cv.toBlob(blob=>{
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a'); a.href=url; a.download=`hook-atlas-${m.id}.png`;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),4000);
+    toast('Specimen card saved — post it somewhere');
+  },'image/png');
+}
+
+/* ---------- specimen of the day ---------- */
+function renderDaily(){
+  const d=new Date();
+  let h=d.getFullYear()*372+d.getMonth()*31+d.getDate();
+  h=Math.imul(h^(h>>>15),2246822519); h=Math.imul(h^(h>>>13),3266489917); h=(h^(h>>>16))>>>0;
+  const m=DATA[h%DATA.length];
+  $('#daily').innerHTML=`<button id="dailyBtn"><span class="dk">Today's specimen</span><span class="dn">${m.n}</span><span style="color:var(--faint)">→</span></button>`;
+  $('#dailyBtn').onclick=()=>openPanel(m.id);
+}
 
 /* ---------- views, search, deal ---------- */
 function setView(v){
@@ -2021,14 +2746,24 @@ $('#deal').onclick=()=>{
   const pool=filtered().length?filtered():DATA;
   openPanel(pool[Math.floor(Math.random()*pool.length)].id);
 };
+$('#spliceBtn').onclick=()=>openSplice(true);
+$('#examBtn').onclick=openExam;
+$('#settingsBtn').onclick=openSettings;
 
 function renderAll(){
   renderFilters();
-  if(state.view==='map') renderMap(); else renderLib();
+  if(state.view==='map'){ renderLensRow(); renderMap(); } else renderLib();
 }
 renderAll();
+renderDaily();
+renderTray();
 
-/* deep link: #m=<id> opens the dossier */
+/* deep links: #m=<id> opens a dossier, #stack=a,b,c loads a shared stack */
+const shash=location.hash.match(/#stack=([\w,-]+)/);
+if(shash){
+  const ids=[...new Set(shash[1].split(','))].filter(id=>byId[id]);
+  if(ids.length){ stack=ids; saveStackLS(); renderTray(); toast('Stack loaded from link'); }
+}
 const hash=location.hash.match(/#m=([\w-]+)/);
 if(hash && byId[hash[1]]) openPanel(hash[1]);
 </script>
