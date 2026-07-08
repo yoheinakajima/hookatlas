@@ -1,0 +1,1267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Hook Atlas — a field guide to engagement mechanics</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gloock&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --felt:#101d20; --felt2:#152728; --felt3:#1a3033;
+  --line:#28424563; --line2:#2f4d51;
+  --bone:#eae3d2; --dim:#9cb1ac; --faint:#5f7a77;
+  --reward:#ff5c8a; --progression:#7bd88f; --scarcity:#ffb454;
+  --social:#6cb8ff; --identity:#c79bff; --economy:#f0d264;
+  --ritual:#5fd4c4; --narrative:#ff8a5c; --control:#ff5c5c;
+  --mono:'Spline Sans Mono',ui-monospace,'SF Mono',Menlo,monospace;
+  --serif:'Newsreader','Iowan Old Style',Georgia,serif;
+  --disp:'Gloock','Playfair Display',Georgia,serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--felt); color:var(--bone);
+  font-family:var(--serif); font-size:17px; line-height:1.55;
+  background-image:radial-gradient(ellipse 80% 50% at 50% -10%, #1c393c55, transparent);
+  min-height:100vh;
+}
+::selection{background:#ffb45433}
+
+/* ---------- masthead ---------- */
+.masthead{max-width:1180px;margin:0 auto;padding:56px 24px 28px}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.22em;color:var(--faint);text-transform:uppercase}
+h1{font-family:var(--disp);font-weight:400;font-size:clamp(44px,7vw,84px);line-height:.98;margin:14px 0 18px;letter-spacing:-.01em}
+h1 .tilt{font-style:italic;font-family:var(--serif);font-weight:400}
+.subtitle{max-width:620px;color:var(--dim);font-size:18px;line-height:1.5}
+.subtitle b{color:var(--bone);font-weight:500}
+
+/* ---------- toolbar ---------- */
+.toolbar{
+  position:sticky;top:0;z-index:40;background:#101d20ee;backdrop-filter:blur(8px);
+  border-top:1px solid var(--line2);border-bottom:1px solid var(--line2);
+}
+.toolbar-in{max-width:1180px;margin:0 auto;padding:10px 24px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.tabs{display:flex;gap:2px;border:1px solid var(--line2);border-radius:3px;overflow:hidden}
+.tab{
+  font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;
+  background:transparent;color:var(--dim);border:0;padding:8px 16px;cursor:pointer;
+}
+.tab.on{background:var(--felt3);color:var(--bone)}
+.tab:focus-visible,.chip:focus-visible,.rchip:focus-visible,button:focus-visible{outline:2px solid var(--scarcity);outline-offset:1px}
+.search{
+  flex:1;min-width:180px;display:flex;align-items:center;gap:8px;
+  border:1px solid var(--line2);border-radius:3px;padding:7px 12px;background:var(--felt2);
+}
+.search input{
+  flex:1;background:transparent;border:0;color:var(--bone);
+  font-family:var(--mono);font-size:13px;outline:none;
+}
+.search input::placeholder{color:var(--faint)}
+.search .k{font-family:var(--mono);font-size:10px;color:var(--faint);border:1px solid var(--line2);border-radius:2px;padding:1px 5px}
+.deal{
+  font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;
+  background:transparent;color:var(--scarcity);border:1px solid #ffb45455;border-radius:3px;
+  padding:8px 14px;cursor:pointer;white-space:nowrap;transition:background .15s;
+}
+.deal:hover{background:#ffb45418}
+
+/* ---------- filters ---------- */
+.filters{max-width:1180px;margin:0 auto;padding:16px 24px 6px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.chip{
+  display:inline-flex;align-items:center;gap:7px;cursor:pointer;
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.04em;
+  border:1px solid var(--line2);border-radius:99px;padding:5px 12px 5px 9px;
+  background:transparent;color:var(--dim);transition:all .15s;
+}
+.chip .tick{width:8px;height:8px;border-radius:1px;background:var(--c);opacity:.5}
+.chip.on{color:var(--bone);border-color:var(--c);background:color-mix(in srgb,var(--c) 12%, transparent)}
+.chip.on .tick{opacity:1}
+.fdiv{width:1px;height:20px;background:var(--line2);margin:0 6px}
+.rchip{
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.04em;cursor:pointer;
+  border:1px dashed var(--line2);border-radius:2px;padding:5px 11px;
+  background:transparent;color:var(--dim);transition:all .15s;
+}
+.rchip.on{color:var(--bone);border-style:solid;border-color:var(--faint);background:var(--felt3)}
+.count{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--faint);letter-spacing:.06em}
+.clear-f{font-family:var(--mono);font-size:11px;color:var(--scarcity);background:none;border:none;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+
+/* ---------- atlas map ---------- */
+.atlas-wrap{max-width:1180px;margin:0 auto;padding:14px 24px 40px}
+.atlas-note{font-family:var(--mono);font-size:11px;color:var(--faint);letter-spacing:.06em;margin-bottom:10px;text-transform:uppercase}
+.atlas{
+  position:relative;border:1px solid var(--line2);border-radius:4px;
+  background:var(--felt2);overflow:hidden;
+}
+.atlas svg{display:block;width:100%;height:auto}
+.axis-label{font-family:var(--mono);font-size:10px;letter-spacing:.2em;fill:var(--faint)}
+.quad-label{font-family:var(--mono);font-size:10px;letter-spacing:.18em;fill:#3d5a58;text-transform:uppercase}
+.dot{cursor:pointer;transition:r .12s}
+.dot-halo{fill:none;stroke-width:1;opacity:0}
+.dotlabel{font-family:var(--mono);font-size:9.5px;fill:var(--dim);pointer-events:none;opacity:.85}
+.dot.dim-out{opacity:.12;pointer-events:none}
+.dotlabel.dim-out{opacity:.06}
+.cross line{stroke:#eae3d240;stroke-dasharray:2 3}
+.cross text{font-family:var(--mono);font-size:10px;fill:var(--scarcity)}
+.tip{
+  position:absolute;pointer-events:none;z-index:30;max-width:260px;
+  background:#0c1719f2;border:1px solid var(--line2);border-radius:3px;padding:10px 12px;
+  opacity:0;transform:translateY(4px);transition:opacity .12s,transform .12s;
+}
+.tip.show{opacity:1;transform:translateY(0)}
+.tip .tc{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase}
+.tip .tn{font-family:var(--disp);font-size:17px;margin:3px 0 2px}
+.tip .tt{font-size:13.5px;color:var(--dim);font-style:italic;line-height:1.35}
+
+/* ---------- library ---------- */
+.lib{max-width:1180px;margin:0 auto;padding:10px 24px 60px}
+.cat-block{margin-top:34px}
+.cat-head{display:flex;align-items:baseline;gap:12px;border-bottom:1px solid var(--line2);padding-bottom:8px;margin-bottom:16px}
+.cat-head .tick{width:10px;height:10px;border-radius:1px;align-self:center}
+.cat-head h2{font-family:var(--disp);font-weight:400;font-size:24px;letter-spacing:.01em}
+.cat-head .cn{font-family:var(--mono);font-size:11px;color:var(--faint);letter-spacing:.1em}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(285px,1fr));gap:12px}
+.card{
+  text-align:left;border:1px solid var(--line);border-radius:3px;background:var(--felt2);
+  padding:16px 16px 13px;cursor:pointer;color:var(--bone);font-family:var(--serif);
+  display:flex;flex-direction:column;gap:8px;transition:border-color .15s,transform .15s,background .15s;
+  border-left:3px solid var(--c);
+}
+.card:hover{border-color:var(--c);background:var(--felt3);transform:translateY(-2px)}
+.card .top{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
+.card .top .risk{margin-left:auto}
+.card h3{font-family:var(--disp);font-weight:400;font-size:21px;line-height:1.15}
+.card .tag{font-style:italic;color:var(--dim);font-size:14.5px;line-height:1.4;flex:1}
+.card .foot{display:flex;gap:6px;align-items:center;font-family:var(--mono);font-size:9.5px;color:var(--faint);letter-spacing:.05em;flex-wrap:wrap}
+.dpill{border:1px solid var(--line2);border-radius:2px;padding:1px 6px}
+.coords{margin-left:auto;color:#4d6a67}
+.risk{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;border-radius:2px;padding:1px 6px}
+.r1{color:#8fd0a0;border:1px solid #8fd0a044}
+.r2{color:#ffb454;border:1px solid #ffb45444}
+.r3{color:#ff6d6d;border:1px solid #ff6d6d55}
+.empty{padding:70px 20px;text-align:center;color:var(--faint);font-style:italic}
+.empty button{display:block;margin:14px auto 0}
+
+/* ---------- dossier panel ---------- */
+.scrim{position:fixed;inset:0;background:#060d0ea8;z-index:50;opacity:0;pointer-events:none;transition:opacity .2s}
+.scrim.show{opacity:1;pointer-events:auto}
+.panel{
+  position:fixed;top:0;right:0;bottom:0;width:min(600px,100vw);z-index:60;
+  background:var(--felt);border-left:1px solid var(--line2);
+  transform:translateX(102%);transition:transform .25s cubic-bezier(.3,.8,.3,1);
+  overflow-y:auto;overscroll-behavior:contain;
+}
+.panel.show{transform:translateX(0)}
+.panel-in{padding:30px 32px 60px}
+.p-close{
+  position:sticky;top:14px;float:right;z-index:5;
+  font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--dim);
+  background:var(--felt3);border:1px solid var(--line2);border-radius:99px;padding:7px 14px;cursor:pointer;
+}
+.p-close:hover{color:var(--bone)}
+.p-cat{font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;display:flex;gap:8px;align-items:center}
+.p-cat .tick{width:9px;height:9px;border-radius:1px}
+.panel h2{font-family:var(--disp);font-weight:400;font-size:clamp(30px,5vw,40px);line-height:1.05;margin:12px 0 8px;clear:none}
+.p-tag{font-style:italic;color:var(--dim);font-size:17px;margin-bottom:14px}
+.p-meta{display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-family:var(--mono);font-size:10.5px;color:var(--faint);letter-spacing:.06em;padding-bottom:18px;border-bottom:1px solid var(--line2)}
+.sect{margin-top:24px}
+.sect .sh{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);margin-bottom:8px}
+.sect .sh em{color:var(--scarcity);font-style:normal}
+.sect p{font-size:16.5px;line-height:1.6;color:#d7d0c0}
+.sight{display:flex;gap:12px;padding:11px 0;border-bottom:1px solid var(--line)}
+.sight:last-child{border-bottom:0}
+.sight .sv{font-family:var(--mono);font-size:13px;width:16px;flex-shrink:0;padding-top:2px}
+.sv.g{color:#8fd0a0}.sv.b{color:#ff6d6d}.sv.m{color:#ffb454}
+.sight .sd{flex:1}
+.sight .sn{font-weight:500;font-size:15.5px}
+.sight .sn .dm{font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:var(--faint);border:1px solid var(--line2);border-radius:2px;padding:1px 5px;margin-left:8px;vertical-align:2px;text-transform:uppercase}
+.sight .st{font-size:14.5px;color:var(--dim);line-height:1.45;margin-top:2px}
+.playbook{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pb{border:1px solid var(--line2);border-radius:3px;padding:13px 14px;background:var(--felt2)}
+.pb .ph{font-family:var(--mono);font-size:10px;letter-spacing:.16em;margin-bottom:6px}
+.pb.build .ph{color:#8fd0a0}
+.pb.avoid .ph{color:#ff6d6d}
+.pb p{font-size:14.5px;line-height:1.5;color:#cfc8b8}
+.tagrow{display:flex;flex-wrap:wrap;gap:6px}
+.ptag{
+  font-family:var(--mono);font-size:11px;color:var(--dim);cursor:pointer;
+  border:1px solid var(--line2);border-radius:99px;padding:4px 11px;background:none;transition:all .15s;
+}
+.ptag:hover{color:var(--bone);border-color:var(--faint)}
+.relrow{display:flex;flex-wrap:wrap;gap:8px}
+.rel{
+  font-family:var(--serif);font-size:14px;color:var(--bone);cursor:pointer;background:var(--felt2);
+  border:1px solid var(--line2);border-left:3px solid var(--c);border-radius:2px;padding:6px 12px;transition:all .15s;
+}
+.rel:hover{background:var(--felt3);border-color:var(--c)}
+
+/* ---------- footer ---------- */
+.colophon{border-top:1px solid var(--line2);margin-top:20px}
+.colophon-in{max-width:1180px;margin:0 auto;padding:36px 24px 60px;color:var(--faint);font-size:14.5px;line-height:1.6;max-width:720px}
+.colophon-in .fh{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;margin-bottom:10px;color:var(--dim)}
+.colophon-in p{margin-bottom:10px}
+.colophon-in em{color:var(--dim)}
+
+@media (max-width:640px){
+  .masthead{padding:36px 18px 20px}
+  .toolbar-in,.filters,.atlas-wrap,.lib{padding-left:14px;padding-right:14px}
+  .playbook{grid-template-columns:1fr}
+  .panel-in{padding:24px 18px 60px}
+  .dotlabel{display:none}
+  .count{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  *{transition:none!important;animation:none!important}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="eyebrow">A field atlas for founders · 48 specimens · 4 habitats</div>
+  <h1>The Hook <span class="tilt">Atlas</span></h1>
+  <p class="subtitle">The same loops that keep players grinding keep customers subscribing and congregations tithing. This atlas traces <b>48 engagement mechanics</b> across games, business, and belief — what fires in the brain, what binds the group, where each one earns loyalty, and where it curdles into a dark pattern.</p>
+</header>
+
+<nav class="toolbar" aria-label="Views and search">
+  <div class="toolbar-in">
+    <div class="tabs" role="tablist">
+      <button class="tab on" id="tab-map" role="tab" aria-selected="true">Atlas map</button>
+      <button class="tab" id="tab-lib" role="tab" aria-selected="false">Library</button>
+    </div>
+    <label class="search">
+      <span class="k">⌕</span>
+      <input id="q" type="search" placeholder="Search mechanics, examples, principles… try “loss aversion” or “Duolingo”" aria-label="Search mechanics">
+    </label>
+    <button class="deal" id="deal">Deal me one</button>
+  </div>
+</nav>
+
+<div class="filters" id="filters"></div>
+
+<main>
+  <section class="atlas-wrap" id="atlasView" aria-label="Atlas map">
+    <div class="atlas-note">Every mechanic, plotted · horizontal — who it works on · vertical — how it pulls · click any point to open its dossier</div>
+    <div class="atlas" id="atlasBox">
+      <svg id="atlasSvg" role="img" aria-label="Map of mechanics on individual-to-collective and carrot-to-stick axes"></svg>
+      <div class="tip" id="tip"></div>
+    </div>
+  </section>
+
+  <section class="lib" id="libView" hidden aria-label="Mechanic library"></section>
+</main>
+
+<div class="scrim" id="scrim"></div>
+<aside class="panel" id="panel" role="dialog" aria-modal="true" aria-label="Mechanic dossier"></aside>
+
+<footer class="colophon">
+  <div class="colophon-in">
+    <div class="fh">Colophon &amp; caution</div>
+    <p>Each mechanic is charted on two axes: <em>me ⟷ we</em> (does it work on a private mind or on a group?) and <em>carrot ⟷ stick</em> (does it pull with desire or push with fear of loss?). Coordinates are editorial judgments, not measurements — argue with them, that's the point.</p>
+    <p>Hazard marks matter. Most of these mechanics are dual-use: the loop that builds a habit can build a dependency, and the ritual that builds a community can build a cult. The strongest consumer companies borrow from casinos and churches alike — the durable ones are honest about which shelf they're borrowing from.</p>
+    <p><em>Examples span games, business, religion &amp; high-control groups, and the wider world (military, fitness, politics). Sightings marked ▲ worked, ▼ backfired or crossed a line, ◆ contested.</em></p>
+  </div>
+</footer>
+
+<script>
+const CATS = {
+  reward:      {name:'Reward Systems',        c:'#ff5c8a', note:'when and how the payoff lands'},
+  progression: {name:'Progression & Mastery', c:'#7bd88f', note:'the ladder and the climb'},
+  scarcity:    {name:'Scarcity & Time',       c:'#ffb454', note:'less of it, and only for now'},
+  social:      {name:'Social Dynamics',       c:'#6cb8ff', note:'other people as the mechanic'},
+  identity:    {name:'Identity & Belonging',  c:'#c79bff', note:'who you become by joining'},
+  economy:     {name:'Economy & Ownership',   c:'#f0d264', note:'tokens, stakes, and sunk costs'},
+  ritual:      {name:'Ritual & Habit',        c:'#5fd4c4', note:'repetition as architecture'},
+  narrative:   {name:'Narrative & Meaning',   c:'#ff8a5c', note:'the story that makes it matter'},
+  control:     {name:'Pressure & Control',    c:'#ff5c5c', note:'handle with gloves'},
+};
+const DOMS = {game:'Games', biz:'Business', faith:'Religion & cults', civ:'Elsewhere'};
+const RISKS = {1:['BENIGN','r1'],2:['DUAL-USE','r2'],3:['HAZARD','r3']};
+</script>
+<script>
+const DATA = [
+/* ================= REWARD SYSTEMS ================= */
+{id:"variable-ratio",n:"Variable-Ratio Rewards",c:"reward",risk:3,x:-0.7,y:-0.55,
+tag:"Payoffs on an unpredictable schedule — the strongest reinforcement pattern ever measured.",
+def:"Reward arrives after a random number of actions rather than a fixed one. Skinner's pigeons pecked hardest, longest, and most compulsively on this schedule — and it underlies nearly every mechanic on this map that feels 'sticky' without anyone knowing why.",
+brain:"Dopamine tracks prediction error, not pleasure: it spikes when outcomes beat expectations. A predictable reward stops firing; an unpredictable one never stops. Uncertainty itself becomes the stimulant, which is why checking behavior persists long after the average payoff turns negative.",
+soc:"Societies have always rationed variable rewards — harvests, hunts, answered prayers. Institutions that can *frame* randomness as meaningful (luck, providence, the algorithm) capture the compulsion the randomness generates.",
+ex:[
+ {d:"game",n:"Diablo / ARPG loot drops",v:1,t:"Rare-item tables turn identical monster kills into thousands of hopeful pulls. The genre is essentially a slot machine wearing armor."},
+ {d:"biz",n:"Pull-to-refresh feeds",v:0,t:"TikTok, Instagram, and email inboxes deliver a variable mix of gold and junk — the refresh gesture is a lever pull, and product teams know it."},
+ {d:"faith",n:"Answered-prayer attribution",v:0,t:"Petitions are 'answered' on an unknowable schedule; hits are remembered, misses reframed as 'not yet.' The intermittent pattern deepens rather than erodes practice."},
+ {d:"biz",n:"Slot machines",v:-1,t:"The reference implementation. Modern machines tune near-misses and losses-disguised-as-wins so precisely that regulators treat the math itself as the harm."}],
+build:"Add small, honest variance to rewards that already exist — surprise upgrades, occasional bonus credit, unpredictable delight in support interactions.",
+avoid:"Building the variance into the *core* purchase or usage loop. If your revenue depends on users misjudging odds, you have built a casino and will eventually be regulated like one.",
+tags:["operant conditioning","dopamine prediction error","variable reinforcement","compulsion loops"],
+rel:["loot-boxes","near-miss","curiosity-gap","habit-loop"]},
+
+{id:"loot-boxes",n:"Loot Boxes & Gacha",c:"reward",risk:3,x:-0.62,y:-0.25,
+tag:"Pay for a chance at the thing, not the thing.",
+def:"A purchased randomized reward: the buyer spends real money on a probability distribution. Combines variable-ratio reinforcement with sunk cost and collection pressure into the most profitable — and most regulated — mechanic in modern games.",
+brain:"The purchase buys anticipation, and anticipation is where dopamine lives. 'Pity systems' (a guaranteed rare after N pulls) exploit the goal gradient: each miss is reframed as progress, so losing feels like almost-winning.",
+soc:"Chance purchases have deep cultural roots — omikuji fortunes at Japanese shrines, raffle tickets at church fairs. The controversy isn't novelty; it's scale, minors, and odds hidden behind cartoon aesthetics.",
+ex:[
+ {d:"game",n:"Genshin Impact's pity system",v:0,t:"Transparent odds plus a guaranteed rare at 90 pulls made a $2B+/yr gacha feel 'fair' — a masterclass in softening a hard mechanic without removing it."},
+ {d:"biz",n:"Pop Mart blind boxes",v:1,t:"Labubu and friends turned the gacha loop into physical retail: sealed boxes, chase figures, secondary markets. Toys as pulls."},
+ {d:"faith",n:"Seed-faith giving",v:-1,t:"Prosperity preachers frame donations as lottery tickets on divine windfalls — pay in, await a variable payout. The mechanic is identical; only the currency of the promised jackpot differs."},
+ {d:"game",n:"Star Wars Battlefront II (2017)",v:-1,t:"Pay-to-win loot boxes triggered the most-downvoted comment in Reddit history, government inquiries, and Belgium's outright ban. The backlash rewrote industry norms."}],
+build:"If you sell randomness, publish odds, cap spend, and let players see the full pool. Mystery works fine as a garnish on a fair deal.",
+avoid:"Randomized paid rewards anywhere near minors, or as the only path to competitively meaningful items. This line is now written into law in several countries.",
+tags:["variable reinforcement","goal gradient","gambling adjacency","collection pressure"],
+rel:["variable-ratio","collections","dual-currency","artificial-scarcity"]},
+
+{id:"streaks",n:"Streaks",c:"reward",risk:2,x:-0.5,y:0.3,
+tag:"An unbroken chain that reframes consistency as a possession you can lose.",
+def:"Count consecutive days (or actions) and display the number. The genius is the flip: the reward for showing up quietly becomes a punishment for missing — the longer the streak, the heavier the threatened loss.",
+brain:"Loss aversion: losses hurt roughly twice as much as equivalent gains feel good. A 400-day streak is an asset the brain defends far more fiercely than it would pursue. The Zeigarnik effect adds an open-loop itch that only today's rep can close.",
+soc:"Religions discovered chained observance millennia before apps: daily prayer cycles, novenas, Ramadan's unbroken month. The chain signals devotion to the self and the community simultaneously.",
+ex:[
+ {d:"biz",n:"Duolingo streaks + streak freeze",v:1,t:"The streak drives retention; *selling insurance against its loss* (streak freezes) monetizes the very anxiety the streak created. Elegant, and openly acknowledged by the company."},
+ {d:"game",n:"Snapchat snapstreaks",v:-1,t:"Teens 'streak-sit' by sharing passwords before vacations; researchers documented genuine anxiety around breakage. A friendship metric became an obligation."},
+ {d:"faith",n:"The rosary & the daily office",v:1,t:"Daily devotional chains sustain practice through motivation troughs — the chain carries you when belief alone wouldn't."},
+ {d:"civ",n:"GitHub's contribution streak (removed 2016)",v:-1,t:"GitHub deleted the streak counter after it visibly pushed developers into performative daily commits and guilt-driven weekend work. A rare, instructive retreat."}],
+build:"Pair streaks with grace: freezes, repair windows, 'weekly consistency' framings that forgive a missed day. The habit is the goal; the number is scaffolding.",
+avoid:"All-or-nothing streaks on anything tied to wellbeing or social standing. When a user's first thought after a hospital visit is their streak, the mechanic owns them.",
+tags:["loss aversion","commitment & consistency","Zeigarnik effect","habit formation"],
+rel:["daily-quests","loss-aversion","progress-bars","habit-loop"]},
+
+{id:"daily-rewards",n:"Daily Login Rewards",c:"reward",risk:1,x:-0.6,y:-0.5,
+tag:"A small gift for showing up, escalating the longer you keep showing up.",
+def:"A calendar of small rewards claimed once per day, usually growing across the week or month. It buys the habit of *arrival* — the hardest part of any engagement loop — with cheap virtual goods.",
+brain:"It converts a decision ('should I open this?') into a collection ('my day-6 reward is waiting'). Anticipation of a known reward still cues dopamine; escalating calendars add a mini goal-gradient so day 27 pulls harder than day 2.",
+soc:"The advent calendar perfected this in the 1900s: daily doors, escalating anticipation, a grand finale. Modern loyalty apps are advent calendars that never run out of December.",
+ex:[
+ {d:"game",n:"MMO login calendars",v:1,t:"A free-to-play staple: trivial-cost items produce daily arrival, and daily arrival produces everything else."},
+ {d:"biz",n:"Starbucks 'star days' & bonus challenges",v:1,t:"Time-boxed bonus stars convert lapsed customers into weekly visitors — the coffee is the same; the calendar changed."},
+ {d:"faith",n:"Daily devotionals & advent calendars",v:1,t:"One reading, one door, one candle per day. Structured dailiness has carried religious practice for centuries; apps merely digitized the cadence."},
+ {d:"biz",n:"Login rewards on trading apps",v:-1,t:"Daily-check-in bonuses on brokerage and gambling-adjacent apps import a benign mechanic into a domain where daily engagement itself is the harm."}],
+build:"Reward arrival with something that makes the product *better* (credits, content, unlocks), so the habit compounds into value rather than mere attendance.",
+avoid:"Escalating calendars on products where more usage isn't in the user's interest — trading, betting, doomscrolling. Cadence is neutral; the destination isn't.",
+tags:["habit formation","goal gradient","anticipation","classical conditioning"],
+rel:["streaks","daily-quests","appointment","progress-bars"]},
+
+{id:"near-miss",n:"Near-Miss Design",c:"reward",risk:3,x:-0.68,y:0.12,
+tag:"Losing, staged to feel like almost winning.",
+def:"Outcomes are presented so that failure lands adjacent to success — two cherries and a lemon, the timer expiring at 99%. A pure framing trick: nothing about the odds changes, only the felt distance to the win.",
+brain:"Neuroimaging shows near-misses activate the same reward circuitry as wins while *increasing* the urge to continue — the brain misreads them as skill feedback ('I'm close') even in games of pure chance.",
+soc:"Testimony cultures run on near-misses too: the breakthrough that's 'so close,' the healing that 'almost' came — proximity narratives keep the faithful investing after the payout doesn't arrive.",
+ex:[
+ {d:"biz",n:"Slot reel weighting",v:-1,t:"Reels are deliberately mapped so jackpot symbols land just above or below the payline far more often than chance — regulated as deceptive in several jurisdictions."},
+ {d:"game",n:"'You almost had it' race placement",v:0,t:"Rubber-band AI keeps losing players within sight of the leader — frustration stays motivating instead of terminal. Benign when it's about pacing, corrosive when it's about spend."},
+ {d:"biz",n:"'You were outbid' notifications",v:0,t:"Auction and resale apps convert every loss into proximity — one more bid, one more try. Effective, and easy to push past honest."},
+ {d:"faith",n:"'Your miracle is one seed away'",v:-1,t:"Prosperity framing that places the believer perpetually adjacent to breakthrough, with one more donation as the closing move."}],
+build:"Use proximity feedback only where skill is real: 'you were 2 points from the next tier' is honest coaching when the user's actions actually move the number.",
+avoid:"Manufacturing closeness in outcomes the user can't influence. That's not motivation design; it's the specific thing gambling regulators write rules about.",
+tags:["dopamine prediction error","illusion of control","framing effects","gambling adjacency"],
+rel:["variable-ratio","loot-boxes","progress-bars","loss-aversion"]},
+
+/* ================= PROGRESSION & MASTERY ================= */
+{id:"xp-levels",n:"XP & Levels",c:"progression",risk:1,x:-0.55,y:-0.7,
+tag:"A number that only goes up, standing in for who you're becoming.",
+def:"Actions earn points; points accumulate into ranked levels. Levels quantize an otherwise invisible journey into legible, celebrated steps — the oldest trick in game design and the backbone of every loyalty program.",
+brain:"Levels exploit the goal gradient (effort accelerates near thresholds) and give the self-model a score. Self-determination theory calls this the competence need: visible growth is intrinsically rewarding even when the number buys nothing.",
+soc:"Graded rank is a universal social technology — military insignia, belt colors, academic degrees. A level system works because everyone instantly understands what it claims: this person has put in the time.",
+ex:[
+ {d:"biz",n:"Airline & Sephora status tiers",v:1,t:"Silver → Gold → Rouge. Tiered status turns spend into identity and makes the top tier a possession customers reorganize their behavior to defend."},
+ {d:"faith",n:"Scientology's Bridge to Total Freedom",v:-1,t:"A literal published level chart (up through 'OT VIII'), each step purchased. Perhaps the most explicit XP system ever attached to a belief system — and a cautionary study in monetized progression."},
+ {d:"game",n:"D&D and everything after",v:1,t:"The 1974 level curve — fast early, slow late — remains the default pacing of nearly every progression system on this map."},
+ {d:"civ",n:"Martial-arts belts",v:1,t:"Kano invented judo's belt ranks in the 1880s partly as a retention device. It worked so well every dojo on earth adopted it."}],
+build:"Make early levels fast and legible, and make each level *mean* something operational — access, capability, recognition — not just a bigger number.",
+avoid:"Infinite levels with no meaning attached, or tiers that mostly exist to be revoked (see the Delta status backlash under Prestige & Resets).",
+tags:["goal gradient","competence need","status seeking","quantified self"],
+rel:["skill-trees","prestige","progress-bars","badges-titles"]},
+
+{id:"skill-trees",n:"Skill Trees",c:"progression",risk:1,x:-0.6,y:-0.78,
+tag:"Progress with branches: every unlock is also a choice about who to become.",
+def:"A dependency graph of abilities where each node unlocks children. Unlike linear levels, trees add agency — the path itself expresses identity — and preview the whole territory, turning future content into visible aspiration.",
+brain:"Seeing locked nodes creates a Zeigarnik-style open loop for the entire graph at once. Choice engages the autonomy need; the visible map converts vague ambition into a plannable route, which sharply raises follow-through.",
+soc:"Initiatic orders are skill trees: Freemasonry's degree structure, guild apprentice-journeyman-master ladders. The branch points double as loyalty tests — you invest in *this* lineage, not that one.",
+ex:[
+ {d:"biz",n:"Salesforce Trailhead",v:1,t:"Turned enterprise-software training into badges, trails, and ranks. 'Trailblazer' became a career identity — a skill tree that mints evangelists."},
+ {d:"game",n:"Path of Exile's passive tree",v:1,t:"A famously enormous web of ~1,300 nodes. The map *is* the marketing: screenshots of it recruit exactly the players who'll love it."},
+ {d:"civ",n:"Khan Academy / Duolingo paths",v:1,t:"Mastery maps let learners see the whole subject and their position in it — the pedagogy of the visible route."},
+ {d:"faith",n:"Masonic degrees",v:0,t:"1° through 33°: staged revelation, each degree unlocking symbols and standing. Three centuries of retention data say the structure works."}],
+build:"Show the whole tree from day one, locked nodes included. Aspiration needs a map; let users screenshot their build.",
+avoid:"Trees so punishing to respec that early choices become traps. Locked-in regret converts your most invested users into your most resentful.",
+tags:["autonomy need","Zeigarnik effect","aspiration mapping","identity through choice"],
+rel:["xp-levels","unlockables","esoteric","onboarding"]},
+
+{id:"onboarding",n:"Onboarding Funnels",c:"progression",risk:2,x:-0.4,y:-0.72,
+tag:"The engineered first hour: minimum friction between arrival and the moment it clicks.",
+def:"A designed sequence from first contact to first payoff — the 'time to fun' in games, the 'aha moment' in SaaS. Every high-retention system obsesses over this corridor, because the first session decides whether there is a second.",
+brain:"Early wins calibrate expectations: fast competence triggers reward circuits before effort costs register. Each small completed step also recruits commitment-and-consistency — having done three steps, abandoning at four feels like self-contradiction.",
+soc:"Recruitment-savvy groups engineer the same corridor: a free dinner, a friendly personality test, a low-stakes first meeting. The ethics live entirely in what the corridor is walking you toward.",
+ex:[
+ {d:"game",n:"'Time to fun' as a KPI",v:1,t:"Modern F2P studios measure minutes from install to first dopamine hit and treat every cut second as revenue. Portal remains the canonical invisible tutorial."},
+ {d:"biz",n:"Slack & Superhuman onboarding",v:1,t:"Slack teaches through a bot conversation; Superhuman ran mandatory white-glove setup calls. Both compress the distance to the moment the product sells itself."},
+ {d:"faith",n:"Scientology's free personality test",v:-1,t:"A no-cost diagnostic that always finds something wrong — and a course that fixes it. The funnel's textbook dark version: manufactured deficiency at step one."},
+ {d:"faith",n:"The Alpha course",v:0,t:"Free dinner, open questions, no pressure for weeks — one of the most effective church onboarding funnels ever built, studied by growth teams who'd never admit it."}],
+build:"Instrument your first session like a speedrun. Find the single moment the product's value lands, and delete everything between signup and that moment.",
+avoid:"Funnels that manufacture a problem in order to sell its solution, or that harvest commitment (contacts, posts, payment info) before delivering any value.",
+tags:["commitment & consistency","time to value","foot-in-the-door","expectation setting"],
+rel:["love-bombing","endowment","skill-trees","heros-journey"]},
+
+{id:"prestige",n:"Prestige & Resets",c:"progression",risk:2,x:-0.35,y:-0.5,
+tag:"Voluntarily starting over, in exchange for a mark that says you already finished.",
+def:"At the progression cap, players may reset to zero for a permanent badge and often a small edge. It converts an ending into a loop: the climb repeats, but now the climb itself is the status symbol.",
+brain:"Resets exploit the peak of competence: mastery has made the game easy, and easy is boring. A reset restores challenge (flow requires it) while the prestige mark protects the ego investment — you're not losing progress, you're spending it.",
+soc:"Rebirth is religion's oldest reset: baptism, born-again conversion, the new name after vows. The community treats the restart not as failure but as the highest status move available.",
+ex:[
+ {d:"game",n:"Call of Duty Prestige",v:1,t:"The 2007 feature that named the pattern: max level → reset → exclusive emblem. Players did it ten times over, voluntarily."},
+ {d:"biz",n:"Annual status requalification",v:-1,t:"Airlines reset elite tiers yearly to force re-earning. Delta's 2023 tightening triggered such fury it partially reversed course — resets read as theft when the user never opted in."},
+ {d:"faith",n:"Born-again conversion",v:1,t:"The convert's biography is rewritten with a hard before/after. The reset generates the testimony, and the testimony recruits the next convert."},
+ {d:"civ",n:"New Year's resolutions",v:0,t:"The 'fresh start effect' is real — temporal landmarks measurably boost goal pursuit — even if most resolutions die by February."}],
+build:"Offer resets as an *opt-in* honor for users who've finished everything: legacy badges, founder marks, 'season one veteran' status.",
+avoid:"Imposed resets of things users believe they own. Earned status behaves like property; confiscating it triggers loss aversion at full strength.",
+tags:["fresh start effect","flow","status preservation","loss aversion"],
+rel:["xp-levels","seasons","loss-aversion","initiation"]},
+
+{id:"progress-bars",n:"Progress Bars & Goal Gradient",c:"progression",risk:1,x:-0.5,y:-0.42,
+tag:"Effort accelerates as the finish line approaches — so show a finish line, and pre-fill the start.",
+def:"Any visible meter toward completion. The goal-gradient effect means motivation scales with proximity to the goal; the design move is manufacturing proximity — endowed progress, partial fills, '80% complete' profiles.",
+brain:"Hull demonstrated it in rats in 1934; Kivetz's café study made it canon: a 12-stamp card with 2 free stamps beats a blank 10-stamp card, despite identical requirements. Perceived progress, not actual progress, drives effort.",
+soc:"Pilgrimage routes are progress bars laid over geography — distance markers, stage towns, the cathedral at the end. The Camino's stamped credential turns 800km into a fillable meter.",
+ex:[
+ {d:"biz",n:"LinkedIn profile strength",v:1,t:"'Profile 85% complete' converted millions of half-empty pages into full résumés. The bar asks; people comply."},
+ {d:"biz",n:"Kivetz's pre-stamped coffee card",v:1,t:"The 2006 field study behind every 'we've started you off with 100 points' email you've ever received."},
+ {d:"faith",n:"The Camino credential",v:1,t:"Pilgrims collect stamps at each stage; the filled passport earns the Compostela certificate. Medieval infrastructure, flawless mechanic."},
+ {d:"biz",n:"Fake checkout progress",v:-1,t:"Meters that crawl to 90% then stall to hold attention, or 'steps' invented to make cancellation feel long. Progress theater erodes the trust real meters depend on."}],
+build:"Endow the first step free, show the meter everywhere, and make the final step feel ceremonial — completions are your best moment to ask for anything.",
+avoid:"Bars that measure nothing. Users forgive slow progress; they don't forgive discovering the meter was decoration.",
+tags:["goal gradient","endowed progress","Zeigarnik effect","completion drive"],
+rel:["xp-levels","streaks","collections","near-miss"]},
+
+{id:"unlockables",n:"Unlockables & Gated Content",c:"progression",risk:2,x:-0.45,y:-0.32,
+tag:"The thing behind the door is worth more because there's a door.",
+def:"Content, features, or knowledge withheld until a condition is met — level, payment, tenure, invitation. Gating converts a catalog into a journey and makes access itself a reward and a status marker.",
+brain:"Locked content triggers curiosity gaps and reactance at once: we want what we're denied *because* we're denied it. Effort spent unlocking then inflates the value of what's unlocked (effort justification) — the door does half the work.",
+soc:"Mystery religions ran graded revelation for millennia: Eleusis initiated by stages, Gnostics sorted hearers from perfecti. What the inner circle knows is inseparable from the fact that outsiders don't.",
+ex:[
+ {d:"game",n:"Fighting-game character unlocks",v:1,t:"Smash Bros. shipped half its roster locked. The unlock chase *was* the single-player game, and every new silhouette was a shared playground rumor."},
+ {d:"biz",n:"Hermès purchase history",v:0,t:"A Birkin can't simply be bought; boutiques informally require a relationship and prior purchases. The gate manufactures the mystique that justifies the price."},
+ {d:"biz",n:"Freemium feature gates",v:1,t:"When the gate sits exactly where the user's success outgrows the free tier, upgrading feels like graduation. When it sits mid-workflow, it feels like a shakedown."},
+ {d:"faith",n:"Graded revelation in high-control groups",v:-1,t:"Doctrines disclosed only at upper levels (Scientology's OT materials being the famous case) keep members climbing toward a secret — and unable to evaluate the deal they signed."}],
+build:"Gate on effort or mastery, and make the locked catalog *visible*. A silhouette sells the unlock; a blank page sells nothing.",
+avoid:"Gating information people need to make the decision to keep paying you. That inverts informed consent — the defining move of high-control groups.",
+tags:["curiosity gap","effort justification","reactance","graded revelation"],
+rel:["skill-trees","esoteric","artificial-scarcity","loot-boxes"]},
+
+/* ================= SCARCITY & TIME ================= */
+{id:"limited-events",n:"Limited-Time Events",c:"scarcity",risk:1,x:0.1,y:0.3,
+tag:"A moment that will not repeat, so everyone shows up at once.",
+def:"Content or offers available only during a window — and ideally only *witnessable* live. The scarcity is temporal rather than material: what's rationed is presence.",
+brain:"Anticipated regret does the heavy lifting: the imagined future self who missed it is more motivating than the event itself. Shared timing adds collective effervescence — crowds synchronized on one moment feel the moment as bigger.",
+soc:"Festivals are humanity's original limited-time events. The Kumbh Mela draws tens of millions to a river confluence on an astrological schedule; Catholic jubilee years open a door that's otherwise sealed for a quarter century.",
+ex:[
+ {d:"game",n:"Fortnite live events",v:1,t:"One-time in-game concerts and world-ending set pieces drew tens of millions simultaneously — miss it and you only ever see the YouTube version."},
+ {d:"biz",n:"McRib & the Pumpkin Spice season",v:1,t:"Products that would be ignored year-round become cultural moments as annual apparitions. Absence does the advertising."},
+ {d:"faith",n:"Jubilee years & pilgrimage seasons",v:1,t:"Rome's Holy Door opens roughly every 25 years; the window itself generates the pilgrimage."},
+ {d:"biz",n:"Perpetual 'limited' sales",v:-1,t:"When the countdown resets every midnight, customers learn the scarcity is scenery — and regulators increasingly treat fake windows as deceptive practice."}],
+build:"Make the window real and the event genuinely unrepeatable. One honest annual moment beats twelve fake monthly ones.",
+avoid:"Scarcity theater. The first time a user sees the 'last chance' return, every future claim you make is discounted.",
+tags:["anticipated regret","collective effervescence","scarcity heuristic","event marketing"],
+rel:["countdown-fomo","seasons","appointment","artificial-scarcity"]},
+
+{id:"countdown-fomo",n:"Countdowns & FOMO",c:"scarcity",risk:3,x:0.0,y:0.58,
+tag:"A visible clock attached to a closing door.",
+def:"Deadline pressure made ambient: timers on checkout pages, expiring offers, seasons ending. Where limited events pull with occasion, countdowns push with the shrinking option to act at all.",
+brain:"Deadlines collapse deliberation — under time pressure the brain shifts from comparative evaluation to loss-frame heuristics. The ticking clock is a cognitive dispatcher that routes decisions away from the slow, skeptical system.",
+soc:"Apocalyptic movements are countdown cultures. The Millerites sold possessions ahead of Christ's return on October 22, 1844; the date passed ('the Great Disappointment') — and, instructively, much of the movement reinterpreted rather than disbanded.",
+ex:[
+ {d:"biz",n:"Booking.com pressure tactics",v:-1,t:"'6 people are looking at this right now' and countdown banners drew formal action from the UK regulator — the canonical case of urgency crossing into deception."},
+ {d:"game",n:"Battle-pass season timers",v:0,t:"Ninety days to finish the track. It reliably converts casual players into schedulers — and a documented source of obligation burnout."},
+ {d:"faith",n:"The Great Disappointment (1844)",v:-1,t:"The failed deadline that birthed modern apocalyptic date-setting — and demonstrated that a broken countdown often deepens commitment via dissonance reduction."},
+ {d:"biz",n:"Genuine enrollment windows",v:1,t:"Cohort courses and open-enrollment periods with real capacity limits use deadlines honestly: the door actually closes, so the pressure carries information."}],
+build:"Use deadlines that encode a true constraint — capacity, cohort start, tax day. Say *why* the clock exists.",
+avoid:"Countdown timers wired to nothing. Also: aiming urgency at decisions with long-term consequences (contracts, finances) is where FOMO becomes predation.",
+tags:["scarcity heuristic","anticipated regret","time pressure","system-1 routing"],
+rel:["limited-events","loss-aversion","artificial-scarcity","fear-relief"]},
+
+{id:"artificial-scarcity",n:"Artificial Scarcity",c:"scarcity",risk:2,x:0.15,y:0.42,
+tag:"Choosing to make less than you could sell, because the gap is the product.",
+def:"Deliberately constraining supply of something reproducible — invites, editions, drops, seats. Digital goods made scarcity a pure design decision, which means it's now always a statement about values.",
+brain:"Scarcity is a quality heuristic (rare ≈ valuable ≈ wanted by others) and a reactance trigger (constraint amplifies desire). Commodity theory: the mere belief that access is limited raises valuation before any evaluation of the good itself.",
+soc:"Election theology is scarcity doctrine: Jehovah's Witnesses teach that exactly 144,000 receive heavenly life. Chosen-few structures bind the chosen tightly — and put a number on what's at stake for everyone else.",
+ex:[
+ {d:"biz",n:"Gmail & Clubhouse invites",v:1,t:"Gmail launched invite-only in 2004; invitations sold on eBay. The constraint was partly capacity, wholly marketing — and it built the best waitlist playbook in tech."},
+ {d:"biz",n:"Supreme's weekly drop",v:1,t:"Small runs, Thursdays, no restocks. The queue is the brand; the resale market is the scoreboard."},
+ {d:"game",n:"Limited skins & 'OG' items",v:1,t:"Fortnite's early skins signal veteran status precisely because they'll never return. Scarcity as a tenure badge."},
+ {d:"faith",n:"The 144,000",v:0,t:"A hard cap on salvation's first class. Sociologists note capped elects intensify in-group commitment — the mechanic works exactly as it does in commerce, with higher stakes."}],
+build:"If you constrain supply, honor it forever. Never reissue the 'never again' item — your scarcity promises are a public ledger.",
+avoid:"'Only 2 left' on infinite inventory. Fabricated stock scarcity is now explicitly targeted by consumer-protection enforcement in the EU and UK.",
+tags:["scarcity heuristic","commodity theory","reactance","status signaling"],
+rel:["unlockables","limited-events","status-display","countdown-fomo"]},
+
+{id:"energy-systems",n:"Energy Systems & Rationing",c:"scarcity",risk:2,x:-0.3,y:0.22,
+tag:"A meter that runs out, so stopping is the system's decision — and continuing can be bought.",
+def:"Usage is metered by a depleting resource (lives, energy, credits) that refills with time or money. It caps sessions, stretches content, creates return appointments, and installs a paywall exactly at the moment of maximum desire.",
+brain:"Interruption at peak engagement is the Zeigarnik effect weaponized: the blocked action loops in memory until resumed. The refill timer converts that itch into a scheduled return; the pay-to-refill option prices the itch in real time.",
+soc:"Rationed grace has history: the medieval indulgence system metered relief from penance — and its monetization under preachers like Tetzel helped ignite the Reformation. Metering the sacred is old, and so is the backlash.",
+ex:[
+ {d:"game",n:"Candy Crush lives",v:0,t:"Five lives, thirty-minute refills, or ask friends / pay. It built a viral loop, a return schedule, and a monetization point from one meter — the pattern's masterpiece."},
+ {d:"biz",n:"Free-tier AI credits & Tinder likes",v:1,t:"Modern rationing: the meter teaches the product's value by taking it away, and the empty state is the upgrade pitch."},
+ {d:"faith",n:"Indulgences",v:-1,t:"Metered, monetized spiritual relief. Market fit was spectacular; the brand damage lasted five centuries."},
+ {d:"game",n:"Energy in competitive contexts",v:-1,t:"When the meter gates competitive standing rather than pacing, 'stamina' becomes pay-to-win with extra steps — a top complaint in every mobile-game review section."}],
+build:"Ration to *pace*, not to punish: generous meters that protect users from bingeing can be genuinely pro-user (and read that way).",
+avoid:"Placing the paywall at emotional peaks by design. Users can feel the difference between a pause and a hostage situation.",
+tags:["Zeigarnik effect","artificial friction","return scheduling","monetized relief"],
+rel:["appointment","dual-currency","loss-aversion","daily-rewards"]},
+
+{id:"appointment",n:"Appointment Mechanics",c:"scarcity",risk:1,x:-0.1,y:0.0,
+tag:"The system sets a time and expects you — value accrues only to those who show up on schedule.",
+def:"Rewards or events bound to specific real-world times: crops that wither, raids that start at 8, happy hours, weekly drops. The product stops waiting for you and starts scheduling you.",
+brain:"Implementation intentions — 'at time X I will do Y' — roughly double follow-through versus vague intent. Appointment design outsources that scheduling to the product, and adds loss (the withered crop) for missed slots.",
+soc:"The sabbath is the original appointment mechanic: one fixed weekly slot, held sacred for millennia. Fixed communal timing doesn't just drive attendance — it synchronizes a community into existence.",
+ex:[
+ {d:"game",n:"FarmVille's withering crops",v:-1,t:"Plant tomatoes, return in 4 hours or lose them. It scheduled tens of millions of people — and became the era's symbol of manipulative design."},
+ {d:"faith",n:"Weekly sabbath & Sunday service",v:1,t:"Same time, every week, together. The cadence builds the congregation more than any sermon does."},
+ {d:"biz",n:"Happy hour & drop calendars",v:1,t:"Time-boxed value creates predictable crowds — and the crowd becomes part of the product."},
+ {d:"civ",n:"Appointment television, resurrected",v:1,t:"Streaming killed the schedule; live sport and weekly-release prestige shows brought it back because simultaneous audiences generate the conversation binging can't."}],
+build:"Give your product a pulse — a weekly moment users can plan their week around. Predictability compounds into ritual.",
+avoid:"Punishing absence harshly (withering, decay) on products people use for leisure. The appointment should be a standing invitation, not a leash.",
+tags:["implementation intentions","synchronization","habit formation","loss aversion"],
+rel:["daily-quests","sabbath","limited-events","energy-systems"]},
+
+{id:"seasons",n:"Seasons & Cycles",c:"scarcity",risk:1,x:0.05,y:-0.12,
+tag:"Structured time: everything ends on schedule so everything can begin again.",
+def:"Content organized into recurring named epochs — seasons, chapters, collections — each with a start, a theme, an end, and a reset. The cycle manufactures fresh starts, deadlines, and shared 'eras' of memory.",
+brain:"Cycles solve the staleness problem: novelty spikes at each boundary re-trigger exploration. The fresh-start effect gives lapsed users a shame-free re-entry — 'season 5 just started' is an invitation, unlike 'you've been gone 8 months.'",
+soc:"Liturgical calendars are the deep template: Advent, Lent, Ordinary Time — an annual emotional arc of anticipation, austerity, and feast, repeated until it structures a civilization's year.",
+ex:[
+ {d:"game",n:"Fortnite seasons & battle passes",v:1,t:"Quarterly resets with new themes turned a single game into a permanent broadcast schedule — and gave lapsed players a clean on-ramp every 90 days."},
+ {d:"biz",n:"Fashion's FW/SS cycle",v:1,t:"The industry invented obsolescence on a calendar: the collection expires by design, so desire renews by design."},
+ {d:"faith",n:"Lent & Ramadan",v:1,t:"Annual seasons of shared austerity — collective difficulty on a schedule, which bonds groups more reliably than collective comfort."},
+ {d:"biz",n:"Content-treadmill burnout",v:-1,t:"When each season demands full re-engagement to 'keep up,' cycles become chores; live-service games now openly compete on *respecting* player time."}],
+build:"Give each cycle a theme, an artifact that persists (the season badge), and a genuine off-ramp between cycles.",
+avoid:"Seasons that reset users' *belongings* rather than the world around them. Fresh scenery delights; confiscation enrages.",
+tags:["fresh start effect","structured novelty","temporal landmarks","renewal"],
+rel:["prestige","limited-events","appointment","sabbath"]},
+
+/* ================= SOCIAL DYNAMICS ================= */
+{id:"leaderboards",n:"Leaderboards",c:"social",risk:2,x:0.6,y:0.2,
+tag:"A ranked list that turns activity into competition — whether or not anyone agreed to compete.",
+def:"Public ordering of participants by metric. Instantly legible, instantly motivating for those near the top — and quietly demotivating or corrupting everywhere else. The most double-edged mechanic in the catalog.",
+brain:"Humans track relative standing compulsively; social-comparison circuitry treats rank changes like resource changes. But motivation is local: people compete hard against near rivals and disengage entirely from distant leaders — a global list motivates the top 5%.",
+soc:"Donor walls, cathedral naming rights, potlatch feasts: status ledgers predate writing. Any metric a community can see, the community will start optimizing — Goodhart's law is a social force before it's a statistical one.",
+ex:[
+ {d:"civ",n:"Strava segments & KOMs",v:1,t:"Localized leaderboards on specific stretches of road — everyone competes in a small pond they might actually win. The design lesson hiding in plain sight."},
+ {d:"biz",n:"Wells Fargo's sales boards",v:-1,t:"Ranked quotas plus public standing produced millions of fake accounts. The definitive case of a leaderboard optimizing the metric instead of the mission."},
+ {d:"biz",n:"Uber's driver gamification",v:-1,t:"Badges, streaks, and ranked targets nudging drivers toward longer hours — investigated by journalists as psychological pressure dressed as play."},
+ {d:"faith",n:"Donor recognition tiers",v:0,t:"From medieval chantries to plaques in the narthex: publicized giving raises totals and quietly converts worship communities into status markets."}],
+build:"Shrink the pond: rank within friends, cohorts, or neighborhoods, and rotate metrics so many kinds of effort get a turn on top.",
+avoid:"Ranking people on metrics tied to their livelihood or safety, and any board where the losing majority is visible to itself daily.",
+tags:["social comparison","status seeking","Goodhart's law","local competition"],
+rel:["status-display","public-commitment","xp-levels","us-vs-them"]},
+
+{id:"guilds",n:"Guilds & Small Groups",c:"social",risk:2,x:0.8,y:-0.5,
+tag:"A named team inside the crowd: obligations to twelve people outlast enthusiasm for a million.",
+def:"Persistent small groups with shared identity, goals, and mutual dependence. The retention effect is blunt: people quit products; they don't quit *people* who are counting on them Thursday night.",
+brain:"Reciprocal obligation and identifiable others convert abstract engagement into interpersonal debt. Group flow — synchronized effort toward shared goals — is among the most rewarding states available, and it's only available in groups.",
+soc:"Wesley's Methodist 'classes' — twelve members, weekly, mutual accountability — scaled a revival into a denomination. The megachurch discovery is identical: people join for the auditorium and stay for the small group.",
+ex:[
+ {d:"game",n:"World of Warcraft guilds",v:1,t:"Twenty-five people needed for the raid means twenty-five people who notice your absence. WoW's longevity is guild architecture more than content."},
+ {d:"biz",n:"CrossFit boxes & Peloton teams",v:1,t:"Fitness franchised around small named cohorts. The 'cult' joke is affectionate recognition that the belonging is the product."},
+ {d:"faith",n:"Cell churches & Methodist classes",v:1,t:"The most battle-tested retention architecture in organizational history — small enough that absence is visible, meaningful enough that presence matters."},
+ {d:"game",n:"The second-job problem",v:-1,t:"Raid schedules and guild duty are the top cited reason MMO players burn out: obligation architecture works whether or not it's good for you."}],
+build:"Cap group size where absence is noticeable (roughly 5–15), give the group a shared goal only the group can reach, and hand it a name it chose.",
+avoid:"Guilt-scaling: if your retention depends on members fearing they'll let the group down, monitor whether the group is serving them or consuming them.",
+tags:["reciprocal obligation","group flow","Dunbar layers","mutual accountability"],
+rel:["identity-fusion","initiation","public-commitment","referral"]},
+
+{id:"gifting",n:"Gifting & Reciprocity",c:"social",risk:2,x:0.65,y:-0.52,
+tag:"An unrequested gift creates a debt no invoice could.",
+def:"Value given first, freely, with the return implicit. Reciprocity is among the most reliable compliance levers ever measured — gifts obligate, and obligation converts.",
+brain:"Cialdini's rule of reciprocation: humans repay even trivial, unwanted favors, and the repayment routinely exceeds the gift. The debt is emotional and immediate; discomfort persists until discharged.",
+soc:"Gift economies precede market economies. The Pacific Northwest potlatch escalated giving into a status arms race so consuming that colonial governments banned it — a governmental intervention against a growth loop.",
+ex:[
+ {d:"faith",n:"Hare Krishna flowers",v:-1,t:"Cialdini's field case: a flower pressed into your hand at the airport, then the donation ask. Refused flowers were retrieved and re-gifted. Ruthlessly effective, universally resented."},
+ {d:"biz",n:"Costco samples & Dropbox referrals",v:1,t:"The sample obligates mildly and demonstrates honestly; Dropbox gave storage to *both* sides of a referral, so the gift recruited a gifter."},
+ {d:"game",n:"Candy Crush life-gifting",v:0,t:"Friends send lives free — a generosity loop that doubled as the era's most notorious notification spam."},
+ {d:"civ",n:"Free address labels in charity mail",v:0,t:"Unsolicited gifts measurably lift donation rates — and mark the exact line where generosity becomes technique."}],
+build:"Give first, give something genuinely useful, and let the reciprocation be optional and unmeasured. Generosity you audit isn't generosity.",
+avoid:"Gifts engineered to embarrass the recipient into compliance, and referral loops that spend the user's friendships as a marketing budget.",
+tags:["reciprocity","gift economies","social debt","viral loops"],
+rel:["referral","love-bombing","endowment","guilds"]},
+
+{id:"social-proof",n:"Social Proof",c:"social",risk:2,x:0.55,y:-0.18,
+tag:"Evidence that people like you already chose this.",
+def:"Displaying the behavior of others as guidance: ratings, counts, testimonials, visible crowds. Under uncertainty, humans substitute 'what did others do?' for 'what should I do?' — and most decisions are made under uncertainty.",
+brain:"Informational conformity is rational compression: others' choices encode information too costly to gather alone. The effect strengthens with similarity ('people like me'), volume, and visibility — and operates below awareness even in people who deny it.",
+soc:"The testimony service is a social-proof engine: converts narrate transformation before the congregation, each account lowering the threshold for the next. Megachurch scale *is* the message — thousands of cars in the lot argue harder than the sermon.",
+ex:[
+ {d:"biz",n:"Amazon ratings & 'bestseller' badges",v:1,t:"Review volume predicts sales almost independent of review content — the count is the proof."},
+ {d:"faith",n:"Testimony night",v:1,t:"First-person transformation stories, live, from people the audience resembles. The oldest conversion-rate optimization in the book."},
+ {d:"biz",n:"Fake reviews & bought followers",v:-1,t:"An entire enforcement economy now exists (FTC rules, platform purges) because counterfeit proof works exactly as well as real proof until discovered."},
+ {d:"civ",n:"Laugh tracks",v:0,t:"Canned laughter measurably increases how funny audiences rate material — proof so artificial everyone claims immunity, and no one has it."}],
+build:"Show real numbers with real specificity — '2,314 teams shipped with this' — and match the proof's *source* to the prospect ('agencies like yours').",
+avoid:"Manufactured counts and rented crowds. Faked proof is a compounding liability: it works until one discovery reprices everything true you've ever claimed.",
+tags:["informational conformity","similarity bias","herd behavior","uncertainty reduction"],
+rel:["public-commitment","status-display","referral","us-vs-them"]},
+
+{id:"status-display",n:"Status Display",c:"social",risk:2,x:0.5,y:-0.08,
+tag:"Goods whose entire function is being seen having them.",
+def:"Visible markers of rank, wealth, tenure, or taste — skins, badges, checkmarks, regalia. The market for being seen is inexhaustible, and purely digital goods made supplying it nearly free.",
+brain:"Status is a primary reinforcer — primates will pay (in juice, in dollars) merely to look at high-status others. Positional goods derive value from rank, not utility, which makes demand insatiable by design: everyone can't be above average.",
+soc:"Churches sold pew rents — front rows cost more — for centuries; vestments, titles, and processional order encode hierarchy visually. Veblen just gave a name to what every institution already practiced.",
+ex:[
+ {d:"game",n:"CS:GO/CS2 knife skins",v:1,t:"Cosmetics with zero gameplay effect trading for five and six figures. The purest demonstration that visibility alone sustains an economy."},
+ {d:"biz",n:"The Amex Centurion card",v:1,t:"An invitation-only object whose main feature is being noticed at the point of payment. The fee buys the moment of display."},
+ {d:"biz",n:"X's paid checkmarks",v:-1,t:"When the badge became purchasable by anyone, it stopped signaling status and started signaling its purchase — a live demonstration that diluted signals die."},
+ {d:"faith",n:"Pew rents & vestment hierarchies",v:0,t:"Monetized visible rank inside sacred space — abolished in most traditions precisely because the display corroded the message."}],
+build:"Mint status that must be *earned*, keep it scarce, and make it legible at a glance. Tenure badges ('member since 2019') are free to issue and impossible to buy.",
+avoid:"Selling the same marks you claim are earned. A status economy has one rule: the moment the signal is purchasable, it's worthless.",
+tags:["costly signaling","positional goods","conspicuous consumption","signal integrity"],
+rel:["artificial-scarcity","costly-signaling","badges-titles","leaderboards"]},
+
+{id:"referral",n:"Referral & Evangelism Loops",c:"social",risk:2,x:0.7,y:-0.38,
+tag:"Users recruiting users — growth delegated to the converted.",
+def:"Structured incentives (or duties) for members to bring in members. The strongest version rewards both sides; the deepest version makes recruiting itself an act of devotion.",
+brain:"A recommendation is costly signaling of relationship — friends stake credibility, so referred users arrive pre-trusting and retain better. For the referrer, advocating publicly triggers consistency pressure: having vouched, they believe harder.",
+soc:"Missionary systems are referral programs with the incentives set to eternity. Mormon missions send members out for two years; Jehovah's Witnesses historically logged and reported field-service hours — recruiting quantified, reviewed, and ranked.",
+ex:[
+ {d:"biz",n:"Dropbox's two-sided referral",v:1,t:"Free space for inviter *and* invitee — reportedly ~4x signups. Paying both sides turned the gift from spam into generosity."},
+ {d:"biz",n:"Hotmail's signature line",v:1,t:"'Get your free email at Hotmail' appended to every message: each use was an advertisement, the product distributing itself."},
+ {d:"faith",n:"Two-year Mormon missions",v:0,t:"Recruiting as rite of passage: the mission converts fewer outsiders than it consolidates the missionary — advocacy is the strongest belief-formation device known."},
+ {d:"biz",n:"MLM recruitment structures",v:-1,t:"When compensation depends on recruiting recruiters, the referral loop *is* the product — and the FTC's math shows most participants must lose."}],
+build:"Reward both sides, make the shareable moment genuinely valuable to the recipient, and let advocacy be a badge of taste, not a chore.",
+avoid:"Compensation structures where recruiting outweighs the product. That's not a growth loop; in the limit, it's a pyramid with extra steps.",
+tags:["costly signaling","commitment & consistency","viral coefficients","advocacy effects"],
+rel:["gifting","public-commitment","social-proof","guilds"]},
+
+{id:"public-commitment",n:"Public Commitment",c:"social",risk:2,x:0.6,y:0.32,
+tag:"Saying it in front of everyone, so backing out costs face.",
+def:"Declarations, pledges, and purchases made visibly — backing a Kickstarter, taking vows, announcing goals. Witnessed commitments recruit identity and reputation as enforcement mechanisms.",
+brain:"Commitment-and-consistency: humans strain to appear (and be) consistent with prior public positions. A witnessed pledge converts future defection from a private change of mind into a public self-contradiction — much more expensive.",
+soc:"Altar calls, public baptisms, wedding vows: religions ritualize commitment precisely because the congregation's memory outlasts the convert's enthusiasm. The audience is the mechanism.",
+ex:[
+ {d:"biz",n:"Kickstarter backing",v:1,t:"Pledges are public and social — backers become evangelists for projects they've visibly endorsed, defending the choice as their own."},
+ {d:"faith",n:"The altar call",v:1,t:"Walking forward in front of hundreds converts a private stirring into a witnessed identity event. Revivalists engineered it deliberately, and it held."},
+ {d:"civ",n:"Building in public",v:1,t:"Founders announcing metrics and roadmaps openly recruit an audience as an accountability structure — and as compounding distribution."},
+ {d:"civ",n:"Announcing goals prematurely",v:0,t:"Some research suggests applause for *stated* intentions can substitute for achieving them — the identity payout arrives before the work. Contested, but worth designing around."}],
+build:"Create witnessed moments at the point of real commitment — public profiles for pledges, launch posts, cohort introductions. Let users stake identity on follow-through, not just intent.",
+avoid:"Extracting public commitments early and cheaply as a lock-in device. Manufactured consistency pressure is a soft form of coercion, and people recognize it in retrospect.",
+tags:["commitment & consistency","reputation stakes","identity claims","witnessed action"],
+rel:["referral","initiation","guilds","social-proof"]},
+
+/* ================= IDENTITY & BELONGING ================= */
+{id:"avatars",n:"Avatars & Customization",c:"identity",risk:1,x:-0.25,y:-0.62,
+tag:"A self you assemble, and therefore a self you won't abandon.",
+def:"Letting users construct a visible representation of themselves — characters, profiles, configurations. Every choice invested in the representation deepens the bond to the system that hosts it.",
+brain:"The IKEA effect: things we partly assemble ourselves are valued far above identical ready-mades. Self-representation adds identity: the avatar becomes an extension of the self-model, so switching platforms starts to feel like abandoning a limb.",
+soc:"Dress has always been identity infrastructure — the customization *within a shared frame* (this uniform, these colors, my patches) is how individuals express selfhood while advertising membership.",
+ex:[
+ {d:"game",n:"Character creators as the game",v:1,t:"Players spend hours in creators before minute one of play — and games with deep customization retain measurably better. The investment precedes and predicts the loyalty."},
+ {d:"biz",n:"Nike By You & profile curation",v:1,t:"Configured products carry the configurer's fingerprints; a curated profile is a sunk identity cost paid in taste."},
+ {d:"faith",n:"Devotional personalization",v:1,t:"Home shrines, chosen saints, personalized prayer rules — traditions that let adherents assemble a personal practice inside the shared structure hold them longer."},
+ {d:"biz",n:"Customization as lock-in theater",v:0,t:"When 'make it yours' mostly deepens switching costs (untransferable setups, non-exportable profiles), the affection is real but the exit was the point."}],
+build:"Let users make visible choices early — name it, skin it, arrange it. Ownership of the configuration becomes loyalty to the platform.",
+avoid:"Trapping identity investments behind non-portability on purpose. Users eventually notice the difference between a home and a hotel that keeps their luggage.",
+tags:["IKEA effect","self-extension","identity investment","endowment"],
+rel:["endowment","uniforms","sunk-cost","identity-fusion"]},
+
+{id:"badges-titles",n:"Badges, Titles & Ranks",c:"identity",risk:1,x:0.3,y:-0.32,
+tag:"Portable proof of standing — a credential the holder does your marketing with.",
+def:"Named, displayable markers of achievement or role: certifications, honorifics, achievement badges, verified statuses. Unlike levels (a number), titles are *words* — they get spoken, printed on cards, added to bios.",
+brain:"Labels shape self-concept: being *called* an expert measurably shifts behavior toward the label. Badges also solve status portability — they compress reputation into a token that travels to contexts where the work itself can't.",
+soc:"Ecclesial and chivalric orders industrialized titling centuries ago: deacon, elder, knight, dame. A title is a promotion the institution pays for in ink, and the holder repays in loyalty and enforcement of the institution's standards.",
+ex:[
+ {d:"biz",n:"Microsoft MVP & AWS Heroes",v:1,t:"Community members work uncompensated for years toward a title from a vendor. The badge mints evangelists and costs the issuer almost nothing."},
+ {d:"game",n:"Xbox achievements & gamerscore",v:1,t:"The 2005 system that put a persistent, cross-game trophy shelf on every player — completionism became an identity."},
+ {d:"faith",n:"Hajji",v:1,t:"The honorific carried for life after pilgrimage — a title purchased with genuine hardship, hence its enduring weight."},
+ {d:"civ",n:"Credential inflation",v:-1,t:"Issue too many badges and each one devalues — the fate of participation trophies, some certification mills, and any badge economy without scarcity discipline."}],
+build:"Mint few, name them well, and make them displayable outside your product — a badge that lives in a LinkedIn bio recruits for you daily.",
+avoid:"Badge spam. Every trivial badge issued is a small tax on the meaning of your serious ones.",
+tags:["labeling effects","status portability","self-concept","credentialism"],
+rel:["xp-levels","status-display","costly-signaling","skill-trees"]},
+
+{id:"initiation",n:"Initiation Rites",c:"identity",risk:3,x:0.75,y:0.48,
+tag:"A hard threshold at the entrance — because what costs much to join is hard to leave cheaply.",
+def:"Demanding entry ordeals: trials, hazing, boot camps, probationary gauntlets. The difficulty isn't incidental to belonging; it manufactures the belonging.",
+brain:"Effort justification, demonstrated by Aronson & Mills in 1959: people who endured a severe initiation rated the same mediocre group far more attractive than those admitted easily. The mind resolves 'I suffered for this' by concluding 'this must be worth it.'",
+soc:"Rites of passage are near-universal across cultures — shared ordeal plus witnessed threshold produces the strongest group bonds anthropologists can measure. Militaries, fraternities, and religious orders all independently converged on it.",
+ex:[
+ {d:"civ",n:"Navy SEAL Hell Week",v:1,t:"Attrition by design: the ordeal filters for commitment and welds survivors together. 'The only easy day was yesterday' is effort justification as doctrine."},
+ {d:"game",n:"EVE Online corp trials",v:1,t:"Player corporations run interviews, background checks, and probation — emergent initiation, invented by players because it works."},
+ {d:"civ",n:"Fraternity hazing",v:-1,t:"The same psychology with the safety removed: deaths, lawsuits, and criminal statutes. Effort justification does not require the effort to be safe, only severe."},
+ {d:"biz",n:"Deliberately hard interviews",v:0,t:"Grueling hiring gauntlets bond those who pass — and select for endurance of the process, which is not the same as fitness for the job."}],
+build:"Make joining meaningful: an application, a project, a threshold moment worth remembering. Communities with a door are valued above communities with a doorway.",
+avoid:"Suffering as the product. If the ordeal's function is to make people overvalue something mediocre, you're running the Aronson–Mills experiment on customers.",
+tags:["effort justification","rites of passage","cognitive dissonance","filtering"],
+rel:["costly-signaling","guilds","onboarding","public-commitment"]},
+
+{id:"costly-signaling",n:"Costly Signaling",c:"identity",risk:2,x:0.55,y:0.52,
+tag:"Sacrifice as proof: the signal is credible precisely because it's expensive.",
+def:"Displays that are hard to fake because they genuinely cost something — time, money, comfort, options. Costly signals solve the trust problem: anyone can *say* they're committed; only the committed will pay.",
+brain:"From Zahavi's handicap principle: signals stay honest when faking them is unaffordable. Human groups read sacrifice as commitment data — the fast, the tithe, the tattoo, the years of grinding — and calibrate trust accordingly.",
+soc:"Sosis's commune study is the landmark: 19th-century religious communes with *more* costly requirements (dietary law, dress codes, celibacy) survived dramatically longer than lenient ones — and secular communes gained nothing from strictness. Sacrifice filters free-riders; belief makes the sacrifice legible.",
+ex:[
+ {d:"faith",n:"Fasting, tithing, dietary law",v:1,t:"Daily observable costs that continuously re-certify membership. Iannaccone's 'strict churches are strong' thesis: demandingness is a feature."},
+ {d:"game",n:"'Earned, not bought' prestige",v:1,t:"Gear or ranks obtainable only through play carry status no purchase can — communities police the distinction fiercely."},
+ {d:"biz",n:"Hand-built scarcity at Hermès",v:1,t:"One artisan, one bag, ~15+ hours: the production cost *is* the marketing claim, and it's unfakeable at scale."},
+ {d:"biz",n:"Performative sacrifice",v:-1,t:"The $1 salary offset by equity, greenwashed 'commitments' — signals engineered to look costly while costing nothing get repriced brutally on discovery."}],
+build:"Ask your best users for real skin in the game — time, contribution, standards — and make that sacrifice visible and honored. Demandingness, honestly framed, builds stronger communities than convenience.",
+avoid:"Extracting sacrifice that serves only the institution. The line between commitment device and exploitation is who captures the value of the cost.",
+tags:["handicap principle","strict-church thesis","free-rider filtering","credible commitment"],
+rel:["initiation","status-display","identity-fusion","referral"]},
+
+{id:"identity-fusion",n:"Identity Fusion",c:"identity",risk:3,x:0.85,y:0.15,
+tag:"When 'I' and 'we' stop being different words.",
+def:"The state where personal and group identity merge — members experience the group's wins, losses, and insults as their own. The deepest tier of belonging, and the one that motivates extreme sacrifice.",
+brain:"Fusion research (Swann, Whitehouse) distinguishes it from mere identification: fused members show visceral, family-like commitment, often forged through shared intense or dysphoric experiences. Cialdini's BIRGing is the everyday trace — 'WE won' after victories, 'THEY lost' after defeats.",
+soc:"High-control groups engineer fusion deliberately: new names, shared ordeals, severed outside ties, totalizing schedules. The same ingredients, at lower doses, make sports fandom, alumni pride, and beloved brands.",
+ex:[
+ {d:"civ",n:"'We won' — BIRGing",v:0,t:"Fans wear jerseys after wins and say 'we'; after losses it's 'they.' Cialdini counted the pronouns in 1976 — the fusion dial is audible in everyday speech."},
+ {d:"biz",n:"Harley tattoos & 'I'm an Apple person'",v:1,t:"When customers ink the logo or describe themselves *as* the brand, churn approaches zero — and criticism of the product registers as personal insult."},
+ {d:"faith",n:"Renaming in new religious movements",v:-1,t:"Rajneesh's sannyasins, monastic names, movement surnames: replacing the name replaces the referent of 'I' — fusion by administrative act."},
+ {d:"biz",n:"The Gap logo riot (2010)",v:0,t:"Change something fused users consider *theirs* and they revolt: Gap reversed its redesign in six days. Fusion cuts both ways — the brand no longer fully owns itself."}],
+build:"Give members shared victories, shared language, and shared trials at humane intensity. Fused communities are the strongest moat in business.",
+avoid:"The high-control toolkit: isolating members from outside ties, totalizing their schedule, or making exit an identity death. That's the definitional boundary of a cult.",
+tags:["identity fusion","BIRGing","shared dysphoria","in-group formation"],
+rel:["us-vs-them","guilds","uniforms","exit-costs"]},
+
+{id:"uniforms",n:"Uniforms & Symbols",c:"identity",risk:1,x:0.7,y:-0.12,
+tag:"Membership you can see across a room.",
+def:"Shared visual markers — logos, colors, dress, insignia, wristbands. Symbols compress belonging into a glance: they let members find each other, outsiders classify them, and the institution exist visibly in the world.",
+brain:"Minimal-group experiments show even arbitrary badges (a random team color) instantly generate in-group favoritism. Wearing the marker also works inward: enclothed cognition — dress shifts the wearer's own behavior toward the identity it signals.",
+soc:"The cross, the hijab, the saffron robe, the clan tartan: religions and tribes solved distributed brand identity millennia before trademark law. A symbol worn by members is advertising that also *screens* — it invites affinity and accepts the cost of visibility.",
+ex:[
+ {d:"biz",n:"The Livestrong band",v:0,t:"80M+ yellow wristbands made a charity visible on every wrist — then the founder's collapse showed the risk of symbols fused to a person."},
+ {d:"biz",n:"Supreme's box logo / the Patagonia vest",v:1,t:"One a subculture badge, the other an accidental industry uniform — both prove the logo's job is sorting people, not decorating products."},
+ {d:"game",n:"Clan tags & guild liveries",v:1,t:"Player-designed insignia worn in-game: the platform supplies the loom, players weave the flags, and the flags retain the players."},
+ {d:"faith",n:"Religious dress",v:1,t:"Visible daily observance is simultaneously devotion, costly signal, and recruitment presence — a symbol system refined over centuries."}],
+build:"Design marks members *want* to wear, then hand over the loom: stickers, flags, colors, templates. The strongest symbols are the ones your community requests.",
+avoid:"Symbols that primarily mark outsiders for exclusion, and merch pushed before belonging exists — an unearned uniform reads as a costume.",
+tags:["minimal group effect","enclothed cognition","visual signaling","in-group markers"],
+rel:["identity-fusion","status-display","avatars","us-vs-them"]},
+
+/* ================= ECONOMY & OWNERSHIP ================= */
+{id:"virtual-currency",n:"Virtual Currency",c:"economy",risk:2,x:-0.4,y:-0.18,
+tag:"A private money you issue, denominate, and never have to fully redeem.",
+def:"Points, coins, miles, stars: value tokens created by the platform, earnable and spendable only inside it. Issuers gain seigniorage, breakage (unredeemed value), behavioral steering, and a moat made of balances.",
+brain:"Tokens decouple effort from reward pricing — the platform can re-value the currency at will — and balances trigger the endowment effect: accumulated points feel like wealth, so leaving feels like forfeiting savings.",
+soc:"Temples have issued sacred currencies since antiquity — token offerings, temple shekels requiring moneychangers. Whenever an institution controls a value token, it controls a small monetary policy over its believers.",
+ex:[
+ {d:"biz",n:"Airline miles",v:1,t:"Loyalty programs grew so large that during 2020 United's MileagePlus was appraised at roughly the airline's entire market value — the currency became the business."},
+ {d:"biz",n:"Starbucks stars & stored value",v:1,t:"Customers pre-load ~$1B+, interest-free, for the privilege of earning stars — a bank with better lattes and no banking regulation."},
+ {d:"game",n:"Robux & creator economies",v:0,t:"A currency with real earn-out for creators — and ongoing scrutiny over how legible its exchange rates are to the children earning it."},
+ {d:"biz",n:"Devaluation events",v:-1,t:"Every points devaluation ('miles now worth 30% less') is a small sovereign default; forums document the trust damage in exactly those terms."}],
+build:"Run your currency like a credible central bank: stable value, published 'exchange rates,' redemptions that feel generous. Breakage is profit; hoarded trust is more profit.",
+avoid:"Silent devaluations and expiring balances as a business model. Users experience it as theft with extra arithmetic.",
+tags:["endowment effect","seigniorage","breakage","switching costs"],
+rel:["dual-currency","sunk-cost","xp-levels","energy-systems"]},
+
+{id:"dual-currency",n:"Dual-Currency Obfuscation",c:"economy",risk:3,x:-0.45,y:0.15,
+tag:"Two conversions between your wallet and the price tag, so the price stops feeling like money.",
+def:"Real money buys a premium token; the token buys the goods — often across mismatched denominations (the $9.99 pack of 1,000 gems for the 850-gem item). Each conversion layer anesthetizes the pain of paying.",
+brain:"The 'pain of paying' is real and measurable; abstraction mutes it. Casinos discovered chips make bettors looser; tokens add unit confusion (what's 850 gems in dollars?) and stranded remainders that only the *next* purchase can redeem.",
+soc:"Any scrip system — company towns, cruise wristbands, casino chips — shares the pattern: convert wages or cash into a local token and spending detaches from the mental accounting that governs 'real' money.",
+ex:[
+ {d:"biz",n:"Casino chips",v:-1,t:"The founding demonstration: identical stakes, different physical token, measurably looser play. Everything since is a software port."},
+ {d:"game",n:"Gem-and-gold economies",v:-1,t:"Two currencies, odd pack sizes, deliberate remainders: the standard F2P stack, now cited in loot-box regulation and consumer-protection guidance."},
+ {d:"biz",n:"Cashless resorts & MagicBands",v:0,t:"Tap-to-pay wearables lift on-site spend — friction removal indistinguishable, mechanically, from pain-of-paying removal."},
+ {d:"civ",n:"Company scrip",v:-1,t:"Wages paid in tokens spendable only at the company store — outlawed in most places, and the historical ceiling of this mechanic's dark form."}],
+build:"If you use tokens, keep conversion trivial: round numbers, visible dollar equivalents, no stranded remainders. Transparency here costs pennies of conversion and buys durable trust.",
+avoid:"Denomination games aimed at making spend illegible — especially anywhere minors play. This is the mechanic regulators can see from orbit.",
+tags:["pain of paying","mental accounting","unit obfuscation","stranded value"],
+rel:["virtual-currency","loot-boxes","energy-systems","sunk-cost"]},
+
+{id:"sunk-cost",n:"Sunk-Cost Traps",c:"economy",risk:3,x:-0.2,y:0.65,
+tag:"Everything already invested, deployed as the argument for investing more.",
+def:"Designs that keep the user's accumulated time, money, and identity visible at the moment of a continue/quit decision. Rationally, sunk costs are irrelevant; behaviorally, they're gravity.",
+brain:"Loss framing: quitting converts 'investment' into 'waste,' and the mind flinches. The effect scales with the size and salience of the pile — which is why systems that *display* your totals (hours played, lifetime points, years of membership) retain harder.",
+soc:"Exit costs in high-demand groups compound the same way: years of service, severed alternatives, a biography written inside the institution. Sociologists of religion note the cruel arithmetic — the more one has given, the more leaving costs, so the longest-serving are the most trapped.",
+ex:[
+ {d:"game",n:"'/played' in MMOs",v:0,t:"WoW will tell you your total days of play — a number that argues for itself. 'I can't quit, I've put years in' is the genre's retention layer."},
+ {d:"faith",n:"Cumulative investment in Scientology",v:-1,t:"Courses costing six figures over decades: ex-member accounts consistently cite the accumulated spend itself as a reason staying felt mandatory."},
+ {d:"biz",n:"MLM garage inventory",v:-1,t:"Unsold stock purchased for rank maintenance becomes the physical embodiment of sunk cost — literally stacked in the house, arguing daily against quitting."},
+ {d:"biz",n:"Costco's membership fee",v:1,t:"The benign version: a modest prepaid fee that motivates usage of a genuinely good deal. Sunk cost aligned with the customer's own interest."}],
+build:"Let sunk costs work *for* users: show progress toward things they want, honor tenure with real benefits, make past investment compound into future value.",
+avoid:"Surfacing the pile at cancellation ('you'll lose 8 years of history'). Retention by hostage-taking converts churned users into hostile ex-users.",
+tags:["sunk cost fallacy","loss framing","escalation of commitment","exit friction"],
+rel:["exit-costs","loss-aversion","virtual-currency","identity-fusion"]},
+
+{id:"endowment",n:"Endowment & Free Trials",c:"economy",risk:2,x:-0.35,y:-0.38,
+tag:"Give it to them first — ownership does the selling.",
+def:"Letting people possess the thing before committing: trials, samples, demos, test drives, the puppy sent home 'just for the weekend.' Once endowed, giving it back is experienced as a loss.",
+brain:"The endowment effect (Kahneman, Knetsch, Thaler's mug experiments): mere ownership roughly doubles valuation within minutes. A trial doesn't demonstrate the product so much as it *re-prices the status quo* — after 30 days, cancellation is the change.",
+soc:"Hospitality traditions grasp this: the guest fed and housed becomes obligated and attached. Evangelistic 'come as you are' seasons endow belonging first — the community is experienced before any commitment is requested.",
+ex:[
+ {d:"biz",n:"Tesla's free FSD month (2024)",v:1,t:"A one-month systemwide trial of a $99+/mo feature: classic endowment at fleet scale — drive with it, then decide whether to have it taken away."},
+ {d:"biz",n:"The puppy-dog close",v:0,t:"The oldest version: take the puppy home tonight, return it if you change your mind. Nobody returns the puppy."},
+ {d:"game",n:"Demo saves that carry over",v:1,t:"Octopath-style demos where progress transfers to the full game: hours invested become a possession the purchase protects."},
+ {d:"biz",n:"Trial-to-paid dark patterns",v:-1,t:"Card required, cancellation buried, silent conversion: the FTC's click-to-cancel push exists because endowment plus friction equals unwanted subscriptions at scale."}],
+build:"Endow generously and make the value felt fast — a trial user who's built something is worth ten who browsed. Then make leaving easy; confidence is a signal.",
+avoid:"Engineering the exit to be harder than the entrance. The trial's honesty is judged entirely at the moment someone tries to end it.",
+tags:["endowment effect","status quo bias","reciprocity","loss aversion"],
+rel:["onboarding","gifting","sunk-cost","avatars"]},
+
+{id:"collections",n:"Collections & Set Completion",c:"economy",risk:2,x:-0.3,y:0.05,
+tag:"Show someone 9 of 10 slots filled and the tenth becomes a need.",
+def:"Discrete sets with visible gaps: stickers, badges, regional items, editions. The set converts unrelated acquisitions into one incomplete gestalt — and incompleteness is a psychological itch.",
+brain:"The Zeigarnik effect plus unit bias: open sets occupy memory until closed, and the *set* becomes the natural unit of 'done.' Value goes nonlinear near completion — the last sticker is worth multiples of the first, a fact every set designer prices in.",
+soc:"Pilgrimage circuits are sacred set completion: Shikoku's 88 temples, each stamping the pilgrim's book. The filled book is proof, relic, and identity — collection as devotion made portable.",
+ex:[
+ {d:"game",n:"Pokémon",v:1,t:"'Gotta catch 'em all' is a mission statement of set completion — version exclusives even split the set across products so completion *requires* the social graph."},
+ {d:"biz",n:"Panini World Cup albums",v:1,t:"Every four years, adults trade stickers of athletes in parking lots. Duplicate mechanics fund the print run; the last three stickers fund the margins."},
+ {d:"faith",n:"The Shikoku 88",v:1,t:"A 1,200km circuit collected in a stamp book over weeks or a lifetime — arguably the most beautiful implementation on this map."},
+ {d:"biz",n:"McDonald's Monopoly rare pieces",v:-1,t:"Completion desire concentrated on artificially ultra-rare pieces — a design so potent its US run was famously hijacked by insider fraud, and the near-complete sets kept everyone else buying fries."}],
+build:"Design sets with visible slots, honest odds, and social trading — duplicates plus trading turns a solo itch into a community.",
+avoid:"Rigging the last slot. Sets whose completion is secretly impossible or priced predatorily convert delight into documented resentment.",
+tags:["Zeigarnik effect","set completion","unit bias","nonlinear valuation"],
+rel:["progress-bars","loot-boxes","trading","limited-events"]},
+
+{id:"trading",n:"Trading & Player Economies",c:"economy",risk:2,x:0.35,y:-0.28,
+tag:"Let users trade with each other, and your goods acquire market prices — and market gravity.",
+def:"Peer-to-peer exchange of platform goods: marketplaces, auction houses, secondary markets. Prices set by users make items feel like assets, deepen engagement, and generate an economy the platform governs like a small state.",
+brain:"Market prices are social proof in numeric form — the item is worth wanting because strangers pay for it. Trading also converts inventory into a portfolio: users start holding, speculating, and checking, behaviors with their own compulsive signatures.",
+soc:"The medieval relic trade was a player economy of the sacred — so flooded with duplicates that Calvin remarked the fragments of the True Cross could fill a ship's hold. Where authenticity can't be verified, supply meets demand anyway.",
+ex:[
+ {d:"game",n:"EVE Online's economy",v:1,t:"So complex the studio employed an in-house economist and published quarterly economic reports. The market is the endgame."},
+ {d:"biz",n:"StockX & sneaker resale",v:1,t:"A bid/ask exchange for shoes turned drops into IPOs — the secondary market's prices now discipline the primary market's design."},
+ {d:"game",n:"Steam marketplace skins",v:0,t:"Item prices in the five figures created real asset markets — and an unregulated gambling periphery the platform has fought for a decade."},
+ {d:"faith",n:"The relic trade",v:-1,t:"Demand for the sacred plus unverifiable supply produced medieval Europe's most notorious counterfeit market — a standing lesson in what happens to authenticity under market pressure."}],
+build:"If you open trading, govern it: authentication, fraud handling, published data. The operator's job title is 'central bank plus customs office.'",
+avoid:"Launching an economy you can't police. Fraud, RMT black markets, and gambling peripheries arrive at scale, uninvited, on day one.",
+tags:["market social proof","asset framing","speculation loops","platform governance"],
+rel:["collections","virtual-currency","status-display","artificial-scarcity"]},
+
+/* ================= RITUAL & HABIT ================= */
+{id:"habit-loop",n:"Trigger → Routine → Reward",c:"ritual",risk:2,x:-0.5,y:-0.08,
+tag:"The three-beat loop that moves behavior from decision to reflex.",
+def:"A cue fires, a routine runs, a reward lands — repeat until the basal ganglia take over and the behavior no longer consults the conscious mind. Every habit-forming product is an implementation of this loop; the design questions are only whose cue, and whose reward.",
+brain:"Habits are neurologically distinct from decisions: with repetition, control shifts from deliberative circuits to automatic ones, and the *cue* (not the reward) comes to drive behavior. Nir Eyal's Hook model adds the investment phase — each cycle the user loads the next trigger themselves.",
+soc:"The adhan is the loop at civilizational scale: five daily calls, each an external trigger for a fixed routine, synchronized across a city. Religions are, among other things, portfolios of installed habit loops.",
+ex:[
+ {d:"faith",n:"The call to prayer",v:1,t:"An audible public cue, five times daily, for fourteen centuries — the most successful trigger architecture ever deployed."},
+ {d:"biz",n:"Push notifications",v:-1,t:"External triggers manufactured at will. Notification fatigue, OS-level summaries, and 'focus modes' are the immune response to their overuse."},
+ {d:"game",n:"The daily-reset ping",v:0,t:"Quests refresh at a fixed hour; the reset time itself becomes the cue. Players describe logging in 'without deciding to' — which is the loop, working."},
+ {d:"biz",n:"The morning coffee ritual",v:1,t:"Coffee brands sell the cue (morning) and the routine (the ritual) as much as the caffeine — habit marketing at its most benign."}],
+build:"Attach your product to an *existing* cue in the user's day (commute, standup, inbox-zero) rather than manufacturing interruptions. Anchored habits outlive notification permission.",
+avoid:"Trigger spam. Every unearned notification spends trust, and the OS vendors are now actively arming users against you.",
+tags:["habit formation","cue dependence","Hook model","automaticity"],
+rel:["daily-quests","appointment","variable-ratio","ritual-framing"]},
+
+{id:"ritual-framing",n:"Ritual Framing",c:"ritual",risk:1,x:0.2,y:-0.58,
+tag:"A prescribed sequence that turns consumption into ceremony.",
+def:"Adding fixed, deliberate steps to an ordinary act — the pour, the unboxing, the twist-lick-dunk. Ritual doesn't change the product; it changes the attention paid to it, and attention is where perceived value lives.",
+brain:"Controlled studies show ritualized consumption measurably increases enjoyment and willingness to pay — even for a plain carrot. The mechanism is savoring plus agency: the sequence forces anticipation and makes the consumer a participant instead of a recipient.",
+soc:"Liturgy is the mother discipline: sequence, repetition, and shared form converting bread and wine into the center of a civilization's week. Marketers borrowing ritual are borrowing from the deepest playbook there is.",
+ex:[
+ {d:"biz",n:"Apple's unboxing",v:1,t:"Packaging engineered for a slow, resistive lid-lift — a ceremony designed in Cupertino and performed a billion times on YouTube."},
+ {d:"biz",n:"The Guinness two-part pour",v:1,t:"119.5 seconds, enforced by advertising for decades: the wait is the ritual, and the ritual is the brand."},
+ {d:"game",n:"Pre-match rituals & emotes",v:1,t:"Load-out checks, ready-up emotes, GLHF: player-invented liturgy that games now design surfaces for."},
+ {d:"biz",n:"Hollow corporate ritual",v:-1,t:"Mandatory fun, forced chants at retail chains, 'core values ceremonies' — ritual without meaning reads as parody and corrodes the trust real ritual builds."}],
+build:"Find the moment of consumption and choreograph it: a sequence, a sound, a phrase. Rituals users perform voluntarily become free advertising and switching costs made of affection.",
+avoid:"Imposing ceremony that serves the brand but not the participant. People can tell whether a ritual is for them or about them.",
+tags:["savoring","ritualized consumption","enactment effects","liturgy"],
+rel:["habit-loop","unlockables","uniforms","sabbath"]},
+
+{id:"daily-quests",n:"Daily Quests",c:"ritual",risk:2,x:-0.4,y:0.0,
+tag:"A short list of things to do today, refreshed tomorrow.",
+def:"Small, bounded tasks issued on a daily cadence: three quests, one puzzle, today's goal. The list converts an open-ended product into a finite daily practice with a clear 'done' state.",
+brain:"Bounded goals exploit completion drive — a checkable list generates its own motivation — while the daily refresh prevents satiation. The 'done for today' state is underrated: closure is a reward, and products that never end never provide it.",
+soc:"The daily office, the five prayers, the one-psalm-a-day rule: religious traditions converged on small daily obligations because sustainable devotion is a cadence, not an intensity.",
+ex:[
+ {d:"biz",n:"Wordle",v:1,t:"One puzzle per day, then a wall. The constraint created the streak, the shared daily topic, and none of the burnout of infinite play — restraint as genius."},
+ {d:"game",n:"MMO daily quests",v:-1,t:"The pattern's cautionary tale: dailies stack across systems until the game becomes a checklist job. 'It felt like chores' is the exit-interview quote of the genre."},
+ {d:"faith",n:"The daily office",v:1,t:"Fixed short prayers at fixed hours: a rule of life designed to be small enough to survive a lifetime."},
+ {d:"civ",n:"The daily standup",v:0,t:"Fifteen minutes, same time, three questions — agile borrowed the liturgy of the daily office and renamed it."}],
+build:"Keep the daily ask small enough to finish and meaningful enough to matter, and give an explicit 'done for today' — closure is retention, counterintuitively.",
+avoid:"Quest inflation. Every additional daily obligation converts play into work; audit the full daily load your product implies, not each feature alone.",
+tags:["completion drive","bounded goals","cadence design","satiation management"],
+rel:["streaks","daily-rewards","habit-loop","sabbath"]},
+
+{id:"sabbath",n:"Deliberate Absence",c:"ritual",risk:1,x:0.0,y:-0.85,
+tag:"Scheduled unavailability: the anti-mechanic that makes everything else land harder.",
+def:"Designing in silence — closed days, one-per-day limits, drops with dead air between them, endings. Absence resets satiation, concentrates demand, and signals confidence no always-on competitor can fake.",
+brain:"Hedonic adaptation is the enemy of every mechanic on this map: constant availability flattens response. Interruption and delay restore it — anticipation is a reward channel that only scarcity of *time* can open.",
+soc:"The sabbath is the deliberate absence: one day in seven, commerce and labor stop. It survived three millennia not despite the cost but because of it — rest as costly signal, boundary, and shared rhythm.",
+ex:[
+ {d:"biz",n:"Chick-fil-A's closed Sundays",v:1,t:"An estimated billion-plus in forgone annual revenue, repaid in brand identity, employee loyalty, and Monday demand. Absence as strategy, audited and reaffirmed for decades."},
+ {d:"game",n:"Animal Crossing's real clock",v:1,t:"Shops close at 10pm; events happen while you're away. The game refuses to binge, and players describe the restraint as the reason they stayed for years."},
+ {d:"biz",n:"Drop cadence with silence",v:1,t:"Supreme's model works because of the 6 days of nothing around the Thursday drop — the silence is where the demand accumulates."},
+ {d:"faith",n:"Shabbat",v:1,t:"A weekly enforced stop on production and consumption — the original digital sabbath, minus the digital."}],
+build:"Give your product a rest state: daily limits, closed hours, seasons of silence. In an attention economy, being the thing that *ends* is a differentiator.",
+avoid:"Fake absence — 'servers down' theatrics or artificial queues framed as exclusivity. Absence signals confidence only when it's genuinely chosen.",
+tags:["hedonic adaptation","anticipation","satiation reset","costly restraint"],
+rel:["appointment","seasons","daily-quests","artificial-scarcity"]},
+
+/* ================= NARRATIVE & MEANING ================= */
+{id:"epic-meaning",n:"Epic Meaning & Calling",c:"narrative",risk:2,x:0.4,y:-0.82,
+tag:"Framing participation as service to something larger than any participant.",
+def:"Attaching the product, task, or membership to a transcendent mission: save the world, accelerate the transition, build the cathedral. Meaning is the strongest known multiplier on effort — and the least regulated.",
+brain:"Self-determination theory's purpose need: humans work harder, longer, and cheaper for goals framed as significant beyond the self. Meaning also reframes cost as devotion — the same hours that would be 'exploitation' under one story are 'calling' under another.",
+soc:"Cathedrals were built by generations who'd never see them finished — the epic frame makes multi-lifetime cooperation possible. Every crusade, mission, and moonshot runs on the same fuel, for better and much worse.",
+ex:[
+ {d:"biz",n:"Tesla & Patagonia's missions",v:1,t:"'Accelerate the world's transition' / 'We're in business to save our home planet': missions that recruit employees at below-market pay and customers at above-market prices."},
+ {d:"game",n:"You are the chosen one",v:1,t:"Nearly every game casts the player as the world's last hope — the frame that makes fetch quests feel like destiny."},
+ {d:"faith",n:"Cathedral building",v:1,t:"Chartres took generations. Epic meaning is the only mechanism that reliably gets humans to invest beyond their own lifespan."},
+ {d:"biz",n:"Mission-washing",v:-1,t:"When 'changing the world' papers over ordinary commerce or bad treatment, the epic frame inverts: WeWork's 'elevate the world's consciousness' became the era's punchline."}],
+build:"Connect daily user actions to a mission you can honestly claim, and show the causal chain — 'your usage did X' beats 'we believe in X.'",
+avoid:"Borrowing transcendence you haven't earned. Epic framing is high-interest debt: the audit, when it comes, is merciless.",
+tags:["purpose need","self-transcendence","meaning as multiplier","mission framing"],
+rel:["heros-journey","identity-fusion","costly-signaling","us-vs-them"]},
+
+{id:"curiosity-gap",n:"Curiosity Gaps & Mystery",c:"narrative",risk:2,x:-0.15,y:-0.48,
+tag:"An opened question the mind can't put down until it's answered.",
+def:"Deliberately incomplete information: teasers, sealed lore, unexplained artifacts, the question posed and unanswered. Curiosity is a drive state — the gap between known and knowable itches like hunger.",
+brain:"Loewenstein's information-gap theory: curiosity spikes when we know *that* something exists but not *what* it is, and it compels resolution nearly involuntarily. The gap must be calibrated — too small is boring, too wide is noise.",
+soc:"Mystery religions institutionalized the gap: Eleusis kept its central rite secret for a thousand years, and the secrecy *was* the recruitment. What's concealed well enough becomes a civilization's open question.",
+ex:[
+ {d:"game",n:"Halo's 'I Love Bees' ARG",v:1,t:"A corrupted website and a payphone ringing at GPS coordinates: the 2004 campaign that proved a mystery can be a marketing channel."},
+ {d:"biz",n:"Apple's keynote secrecy",v:1,t:"Institutional secrecy converts every launch into a global reveal — the curiosity gap operated as a corporate policy."},
+ {d:"biz",n:"Clickbait's collapse",v:-1,t:"'You won't believe what happened next' — the gap opened and paid off with nothing. Upworthy-era clickbait burned the pattern so badly platforms now algorithmically punish it."},
+ {d:"faith",n:"Breadcrumb movements",v:-1,t:"QAnon-style 'do your own research' drips weaponize the gap: each crumb rewards the seeker's effort with belonging, and the mystery is designed never to resolve."}],
+build:"Open gaps you intend to close, and make the payoff exceed the tease. A resolved mystery earns permission to open the next one.",
+avoid:"Gaps as pure extraction — perpetual teasers, mysteries with no answer. Audiences now recognize the unpaid curiosity debt, and they invoice for it publicly.",
+tags:["information-gap theory","Zeigarnik effect","teaser economics","drive states"],
+rel:["esoteric","unlockables","variable-ratio","limited-events"]},
+
+{id:"heros-journey",n:"Hero's-Journey Onboarding",c:"narrative",risk:1,x:-0.05,y:-0.68,
+tag:"Cast the newcomer as the protagonist — the product is just the sword.",
+def:"Structuring the user's early experience as a story arc: ordinary world, call to adventure, guide, trials, transformation. The user is the hero; the brand's disciplined role is Gandalf, not Frodo.",
+brain:"Narrative transportation: information delivered as story bypasses counter-arguing and encodes as experience. Casting the *audience* as protagonist adds identity — people complete stories they believe they're inside of.",
+soc:"Conversion testimony is the form perfected: 'I once was lost, but now am found' is a hero's journey in eight words, retold weekly, recruiting by structural resonance rather than argument.",
+ex:[
+ {d:"biz",n:"StoryBrand's one rule",v:1,t:"Donald Miller's framework built an industry on a single correction: the customer is the hero, the brand is the guide. Companies that cast themselves as hero talk to mirrors."},
+ {d:"faith",n:"Testimony structure",v:1,t:"Before, encounter, after: the most repeated story form in religious history, because hearing a journey invites you onto one."},
+ {d:"game",n:"The tutorial as Act One",v:1,t:"Zelda hands you the sword in a cave; modern onboarding hides the tutorial inside the adventure's opening beats. You were never taught — you *lived* it."},
+ {d:"biz",n:"Brand-as-hero advertising",v:-1,t:"Ads about the company's greatness cast the customer as audience. Audiences leave at intermission."}],
+build:"Write your onboarding as the user's Act One: a call, a guide, an early trial they win, a visible transformation. Then keep handing them bigger quests.",
+avoid:"Making your brand the protagonist of the user's story, and transformation promises the product can't deliver — heroes remember guides who lied.",
+tags:["narrative transportation","protagonist framing","transformation arcs","guide positioning"],
+rel:["onboarding","epic-meaning","curiosity-gap","public-commitment"]},
+
+{id:"esoteric",n:"Esoteric Knowledge",c:"narrative",risk:2,x:0.25,y:0.08,
+tag:"What insiders know — valuable partly because outsiders don't.",
+def:"Knowledge distributed by membership tier: secret menus, insider vocabularies, upper-level doctrines, alpha. Information becomes a belonging good — possessing it proves and rewards insider status simultaneously.",
+brain:"Secrets are socially priced: sharing one signals trust, holding one signals status, learning one delivers the curiosity payoff *and* an identity upgrade in a single event. Jargon works identically — fluency is a shibboleth that sorts insiders at every utterance.",
+soc:"From Eleusinian initiates to Masonic degrees to trading-floor slang: every durable in-group maintains an information gradient. The gradient's steepness is a design choice — and past a threshold, it becomes the defining feature of high-control groups.",
+ex:[
+ {d:"biz",n:"In-N-Out's secret menu",v:1,t:"Animal Style is deliberately unlisted: ordering it performs insider status at the register. A secret everyone can join, which is the benign calibration."},
+ {d:"game",n:"Datamined secrets & Fez",v:1,t:"Games hide puzzles requiring community-scale cryptography — the secret converts a player base into a research collective."},
+ {d:"faith",n:"Upper-level doctrine",v:-1,t:"Teachings revealed only after years and payments (Scientology's OT materials being the litigated case): the member can't evaluate the core claims until maximally invested — informed consent, inverted."},
+ {d:"biz",n:"'Alpha' newsletters & guru funnels",v:0,t:"Selling 'what they don't want you to know' monetizes the gradient directly; quality ranges from genuine insight to infinite regress of paywalled secrets."}],
+build:"Give your community insider language, unlisted features, and early knowledge — secrets that reward attention and are *joinable* by anyone who cares enough.",
+avoid:"Information gradients that prevent members from evaluating what they're buying into. Withholding the terms of the deal until after commitment is the cult move, verbatim.",
+tags:["information asymmetry","shibboleths","insider status","graded revelation"],
+rel:["unlockables","curiosity-gap","initiation","status-display"]},
+
+/* ================= PRESSURE & CONTROL ================= */
+{id:"loss-aversion",n:"Loss-Aversion Mechanics",c:"control",risk:3,x:-0.1,y:0.78,
+tag:"Motivating with the threat of losing what's already held.",
+def:"Designs where the salient force is prospective loss: decaying streaks, expiring points, rank demotion, 'your discount ends tonight.' Losses loom roughly twice as large as gains — so systems that threaten loss pull twice as hard, at a cost paid in anxiety.",
+brain:"Kahneman and Tversky's prospect theory: the value function is steeper for losses. Decay mechanics manufacture endowments precisely so their threatened removal can motivate — a two-step that creates the asset and the anxiety together.",
+soc:"Damnation preaching is loss aversion at maximum stakes: what's threatened is not points but the soul, already possessed and forfeitable. The revival-era 'sinners in the hands of an angry God' sermon is the genre's founding text.",
+ex:[
+ {d:"game",n:"Rank decay & demotion",v:0,t:"Competitive ladders that decay without play convert leisure into maintenance — players describe logging in 'to not lose,' the joyless signature of loss-frame design."},
+ {d:"biz",n:"Expiring points & lapsing status",v:-1,t:"'Your 40,000 miles expire Friday' reliably spikes redemption — and reliably features in the complaints that get loyalty programs regulated."},
+ {d:"faith",n:"Hellfire preaching",v:-1,t:"Fear of loss as the conversion engine. Effective for centuries; also the single most cited reason ex-members give for religious trauma."},
+ {d:"biz",n:"Honest expiry with warning",v:1,t:"Perishable value honestly disclosed early and often ('credits expire in 90 days — here's how to use them') is loss framing in service of the user."}],
+build:"If value expires, say so at issuance, warn generously, and offer rescue paths. Loss framing is acceptable when the loss is real and the user was armed against it.",
+avoid:"Manufacturing possessions solely to threaten them. Anxiety-based retention shows up in your metrics as engagement and in your users as resentment — one lags the other.",
+tags:["prospect theory","loss framing","decay mechanics","anxiety-driven retention"],
+rel:["streaks","sunk-cost","countdown-fomo","fear-relief"]},
+
+{id:"love-bombing",n:"Love Bombing",c:"control",risk:3,x:0.45,y:-0.05,
+tag:"Overwhelming early warmth, calibrated to create attachment before evaluation.",
+def:"Flooding a newcomer with attention, affection, and belonging in the first exposure — before they've assessed the deal. The term was popularized around the Unification Church; the pattern is a recruitment constant across high-control groups, and, diluted, across hospitality and onboarding.",
+brain:"Front-loaded warmth exploits reciprocity, primacy effects, and the scarcity of unconditional welcome in most people's lives. The attachment forms first; the costs are introduced only after leaving would mean losing the warmth.",
+soc:"Recruitment researchers describe the sequence: instant intimacy, constant attention, a group that 'gets you' immediately — followed by escalating asks once the bond is load-bearing. The dilution gradient down to warm hotel welcomes is continuous, which is why the mechanic deserves gloves.",
+ex:[
+ {d:"faith",n:"Cult recruitment weekends",v:-1,t:"Retreats engineered for instant belonging — new names, constant companionship, applause for sharing. The bond is real; its manufacture is the harm."},
+ {d:"biz",n:"Casino host treatment",v:-1,t:"High-value players receive personal hosts, gifts, and remembered preferences — warmth precisely metered to lifetime losses."},
+ {d:"biz",n:"White-glove onboarding",v:1,t:"Concierge setup, a human who knows your name, a handwritten note: the benign dose, where the warmth is honest and the asks stay proportionate."},
+ {d:"game",n:"New-player reward showers",v:0,t:"F2P games front-load gifts and praise for a week, then reveal the grind — players call the pattern 'the honeymoon' with full awareness."}],
+build:"Be genuinely generous early — and keep the later relationship consistent with the opening. The test: would the first week's warmth embarrass you if the twelfth month leaked?",
+avoid:"Warmth as bait. If affection is scheduled to decay once commitment locks in, you're running the recruitment pattern, whatever your industry.",
+tags:["reciprocity","primacy effects","attachment before evaluation","bait-and-switch warmth"],
+rel:["onboarding","gifting","identity-fusion","exit-costs"]},
+
+{id:"us-vs-them",n:"Us vs. Them",c:"control",risk:3,x:0.88,y:0.55,
+tag:"Defining the group by its enemy — the cheapest cohesion money can buy.",
+def:"Framing membership against an out-group: the rival console, the legacy competitor, the corrupt world outside. Opposition generates instant identity, loyalty, and content — and it always escalates, because the enemy is the fuel.",
+brain:"Minimal-group experiments show even coin-flip teams discriminate within minutes; a *named* adversary adds threat, and threat consolidates groups faster than any positive bond. Negative partisanship — defined by what you're against — now measurably outpulls positive affiliation.",
+soc:"Sect formation runs on boundary-drawing: the world as fallen, outsiders as dangerous, persecution as proof of election. 'They will mock you for believing' inoculates members against the strongest counter-arguments before they're ever heard.",
+ex:[
+ {d:"biz",n:"Apple's '1984' and 'Get a Mac'",v:1,t:"Two decades of defining the brand against an enemy (IBM, then the PC guy) — oppositional identity executed with enough wit to stay likable."},
+ {d:"game",n:"'Genesis does what Nintendon't'",v:1,t:"Sega manufactured a console war as a marketing strategy, and two generations of children enlisted for free."},
+ {d:"civ",n:"Green bubbles",v:-1,t:"iMessage's color-coding of outsiders became a documented teen status boundary — an us/them line drawn in UI, with social exclusion as the enforcement."},
+ {d:"faith",n:"Persecution framing",v:-1,t:"High-control groups teach that outside criticism proves the truth of the message — a closed loop that converts every exit argument into confirmation."}],
+build:"Position against a *problem* or a status quo ('spreadsheets', 'the old way'), which gives the tribe an enemy no human has to be.",
+avoid:"Enemy-framing actual people or communities, and any framing that makes members deaf to outside criticism — that's not brand loyalty, it's epistemic capture.",
+tags:["minimal group effect","negative partisanship","threat cohesion","boundary maintenance"],
+rel:["identity-fusion","uniforms","fear-relief","social-proof"]},
+
+{id:"fear-relief",n:"Fear, Then Relief",c:"control",risk:3,x:0.3,y:0.82,
+tag:"Manufacture the dread, then sell the exit.",
+def:"A two-beat sequence: induce fear or anxiety, then immediately present the offer as relief. The emotional whiplash suppresses scrutiny — the relieved mind complies at rates neither calm nor frightened minds match.",
+brain:"Dolinski and Nawrat's fear-then-relief studies: compliance peaks not under fear but in the moment fear is *removed* — the cognitive system is briefly disorganized and agreeable. Every 'your files are at risk → click to secure' funnel is an implementation.",
+soc:"The hellfire-to-altar-call sequence is the form's cathedral: an hour of vividly narrated damnation resolved by a single available exit, walked in public. Revivalists refined the pacing like dramatists, because it is dramaturgy.",
+ex:[
+ {d:"faith",n:"Hellfire, then the altar call",v:-1,t:"Jonathan Edwards' spider dangling over the flame, then grace on offer at the front — the two-beat structure, perfected in 1741 and running nightly since."},
+ {d:"biz",n:"Scareware & FUD security sales",v:-1,t:"'Your PC is infected!' popups selling the cure to a manufactured disease drew FTC prosecutions — the pattern's legal ceiling, clearly marked."},
+ {d:"biz",n:"Insurance advertising",v:0,t:"Vivid disaster, then the calm agent: the legitimate industry built on fear-relief, kept (mostly) honest by the product actually paying out."},
+ {d:"game",n:"Horror pacing",v:1,t:"Survival horror is consensual fear-relief — tension engineered, safe rooms as sanctuaries. The consent is what makes it art instead of manipulation."}],
+build:"If your product addresses a real fear, quantify the risk honestly and let the customer breathe before deciding — relief you didn't manufacture is called trust.",
+avoid:"Inducing the fear you monetize. This is the bright line separating security companies from protection rackets, and prophets from doomsday grifts.",
+tags:["fear-then-relief","compliance windows","threat appeals","manufactured urgency"],
+rel:["loss-aversion","countdown-fomo","us-vs-them","love-bombing"]},
+
+{id:"exit-costs",n:"Exit Costs",c:"control",risk:3,x:0.4,y:0.72,
+tag:"Engineering the price of leaving — the mechanic that reveals what all the others were for.",
+def:"Deliberate friction, forfeiture, or social penalty attached to departure: non-portable data, buried cancellation flows, shunning. Every mechanic on this map raises exit costs as a side effect; this one pursues them as the goal.",
+brain:"Exit-cost design stacks the catalog: sunk costs, endowed assets, fused identity, and social ties all become hostages. Hirschman's frame — exit, voice, loyalty — predicts the outcome: when exit is blocked, users don't become loyal, they become trapped, and trapped users amplify voice into public grievance.",
+soc:"Shunning is the maximal form: Jehovah's Witnesses' disfellowshipping and Scientology's 'disconnection' price departure in family and friendships — the highest exit fee an institution can charge, and the signature by which sociologists grade control.",
+ex:[
+ {d:"biz",n:"Amazon's 'Iliad' cancellation flow",v:-1,t:"An internally codenamed multi-page Prime cancellation labyrinth, later targeted by an FTC suit — the case study in exit friction as documented corporate strategy."},
+ {d:"faith",n:"Shunning & disconnection",v:-1,t:"Leave and lose your family: apostasy priced in relationships. The definitional practice of high-control religion."},
+ {d:"game",n:"Non-portable inventories",v:0,t:"A decade of purchased skins that exist only inside one launcher: nobody calls it lock-in, and everybody stays partly because of it."},
+ {d:"biz",n:"One-click cancel as strategy",v:1,t:"Companies advertising effortless cancellation convert exit-confidence into acquisition — the counter-position writes its own marketing."}],
+build:"Compete on entrance quality, and make leaving trivially easy — export tools, one-click cancel, a graceful goodbye. Easy exit is the most credible quality claim available.",
+avoid:"Retention math that depends on friction at the door. Regulators are converging on it (click-to-cancel rules), and ex-users trapped even briefly become your most motivated critics.",
+tags:["switching costs","exit-voice-loyalty","lock-in","dark patterns"],
+rel:["sunk-cost","identity-fusion","loss-aversion","love-bombing"]},
+];
+</script>
+<script>
+const $ = s => document.querySelector(s);
+const state = {view:'map', cats:new Set(), risks:new Set(), q:''};
+const byId = Object.fromEntries(DATA.map(m=>[m.id,m]));
+const CAT_ORDER = Object.keys(CATS);
+
+/* keep masthead counts honest */
+$('.eyebrow').textContent = `A field atlas for founders · ${DATA.length} specimens · 4 habitats`;
+$('.subtitle b').textContent = `${DATA.length} engagement mechanics`;
+
+function coordLabel(m){
+  return `${m.x<0?'ME':'WE'} ${Math.abs(m.x).toFixed(2)} · ${m.y<0?'CARROT':'STICK'} ${Math.abs(m.y).toFixed(2)}`;
+}
+function domsOf(m){ return [...new Set(m.ex.map(e=>e.d))]; }
+function matches(m){
+  if(state.cats.size && !state.cats.has(m.c)) return false;
+  if(state.risks.size && !state.risks.has(m.risk)) return false;
+  if(state.q){
+    const q = state.q.toLowerCase();
+    const hay = [m.n, m.tag, m.def, m.brain, m.soc, CATS[m.c].name,
+      ...m.tags, ...m.ex.map(e=>e.n+' '+e.t), m.build, m.avoid].join(' ').toLowerCase();
+    if(!hay.includes(q)) return false;
+  }
+  return true;
+}
+const filtered = () => DATA.filter(matches);
+
+/* ---------- filters ---------- */
+function renderFilters(){
+  const f = $('#filters');
+  let h = '';
+  for(const [k,c] of Object.entries(CATS)){
+    h += `<button class="chip ${state.cats.has(k)?'on':''}" data-cat="${k}" style="--c:${c.c}" title="${c.note}">
+      <span class="tick"></span>${c.name}</button>`;
+  }
+  h += `<span class="fdiv"></span>`;
+  for(const r of [1,2,3]){
+    h += `<button class="rchip ${state.risks.has(r)?'on':''}" data-risk="${r}">${RISKS[r][0]}</button>`;
+  }
+  const n = filtered().length;
+  const anyF = state.cats.size||state.risks.size||state.q;
+  if(anyF) h += `<button class="clear-f" id="clearF">clear</button>`;
+  h += `<span class="count">${n} of ${DATA.length} shown</span>`;
+  f.innerHTML = h;
+  f.querySelectorAll('[data-cat]').forEach(b=>b.onclick=()=>{
+    const k=b.dataset.cat; state.cats.has(k)?state.cats.delete(k):state.cats.add(k); renderAll();
+  });
+  f.querySelectorAll('[data-risk]').forEach(b=>b.onclick=()=>{
+    const r=+b.dataset.risk; state.risks.has(r)?state.risks.delete(r):state.risks.add(r); renderAll();
+  });
+  const cf=$('#clearF'); if(cf) cf.onclick=()=>{state.cats.clear();state.risks.clear();state.q='';$('#q').value='';renderAll();};
+}
+
+/* ---------- atlas map ---------- */
+const W=1000, H=640, PAD=56;
+const px = x => PAD + (x+1)/2*(W-2*PAD);
+const py = y => PAD + (y+1)/2*(H-2*PAD);
+
+function renderMap(){
+  const svg = $('#atlasSvg');
+  svg.setAttribute('viewBox',`0 0 ${W} ${H}`);
+  const ok = new Set(filtered().map(m=>m.id));
+  let g = '';
+  /* graph-paper grid */
+  for(let v=-1; v<=1.001; v+=0.25){
+    const major = Math.abs(v)<0.01 || Math.abs(Math.abs(v)-1)<0.01;
+    const c = Math.abs(v)<0.01 ? '#3a5a5e' : (major?'#22393c':'#1c3134');
+    g += `<line x1="${px(v)}" y1="${PAD}" x2="${px(v)}" y2="${H-PAD}" stroke="${c}" stroke-width="1"/>`;
+    g += `<line x1="${PAD}" y1="${py(v)}" x2="${W-PAD}" y2="${py(v)}" stroke="${c}" stroke-width="1"/>`;
+  }
+  /* axis + quadrant labels */
+  g += `<text class="axis-label" x="${PAD}" y="${H-PAD+30}" text-anchor="start">◀ ME · WORKS ON A PRIVATE MIND</text>`;
+  g += `<text class="axis-label" x="${W-PAD}" y="${H-PAD+30}" text-anchor="end">WORKS ON THE GROUP · WE ▶</text>`;
+  g += `<text class="axis-label" x="${PAD-14}" y="${PAD-4}" text-anchor="start">▲ CARROT · PULLS WITH DESIRE</text>`;
+  g += `<text class="axis-label" x="${PAD-14}" y="${H-PAD+14}" text-anchor="start">▼ STICK · PUSHES WITH FEAR OF LOSS</text>`;
+  g += `<text class="quad-label" x="${px(-0.5)}" y="${py(-0.88)}" text-anchor="middle">private desire</text>`;
+  g += `<text class="quad-label" x="${px(0.5)}" y="${py(-0.88)}" text-anchor="middle">shared desire</text>`;
+  g += `<text class="quad-label" x="${px(-0.5)}" y="${py(0.93)}" text-anchor="middle">private pressure</text>`;
+  g += `<text class="quad-label" x="${px(0.5)}" y="${py(0.93)}" text-anchor="middle">communal pressure</text>`;
+  g += `<g id="cross"></g>`;
+  /* labels with greedy collision nudging */
+  const placed=[];
+  const labelFor = (m)=>{
+    const cx=px(m.x), cy=py(m.y), w=m.n.length*5.4, h=11;
+    const cands=[[9,3,'start'],[-9,3,'end'],[0,-11,'middle'],[0,15,'middle']];
+    for(const [dx,dy,an] of cands){
+      const bx = an==='start'?cx+dx : an==='end'?cx+dx-w : cx-w/2;
+      const box={x:bx,y:cy+dy-9,w,h};
+      if(!placed.some(p=>!(box.x>p.x+p.w||box.x+box.w<p.x||box.y>p.y+p.h||box.y+box.h<p.y))){
+        placed.push(box);
+        return `<text class="dotlabel ${ok.has(m.id)?'':'dim-out'}" x="${cx+dx}" y="${cy+dy+3}" text-anchor="${an}">${m.n}</text>`;
+      }
+    }
+    return '';
+  };
+  let dots='', labels='';
+  const sorted=[...DATA].sort((a,b)=>py(a.y)-py(b.y));
+  for(const m of sorted){
+    const cx=px(m.x), cy=py(m.y), col=CATS[m.c].c, off=ok.has(m.id)?'':'dim-out';
+    if(m.risk===3) dots+=`<circle class="dot-halo ${off}" cx="${cx}" cy="${cy}" r="11" stroke="${col}" stroke-dasharray="2 3" style="opacity:${ok.has(m.id)?0.55:0.05}"/>`;
+    dots+=`<circle class="dot ${off}" data-id="${m.id}" cx="${cx}" cy="${cy}" r="6.5" fill="${col}" stroke="#0c1719" stroke-width="1.5"><title>${m.n}</title></circle>`;
+    labels+=labelFor(m);
+  }
+  svg.innerHTML = g + labels + dots;
+
+  const tip=$('#tip'), box=$('#atlasBox'), cross=svg.querySelector('#cross');
+  svg.querySelectorAll('.dot').forEach(d=>{
+    const m = byId[d.dataset.id];
+    d.addEventListener('mouseenter',()=>{
+      d.setAttribute('r','9');
+      tip.innerHTML=`<div class="tc" style="color:${CATS[m.c].c}">${CATS[m.c].name} · ${RISKS[m.risk][0]}</div>
+        <div class="tn">${m.n}</div><div class="tt">${m.tag}</div>`;
+      tip.classList.add('show');
+      const cx=px(m.x), cy=py(m.y);
+      cross.innerHTML=`<g class="cross">
+        <line x1="${PAD}" y1="${cy}" x2="${cx}" y2="${cy}"/><line x1="${cx}" y1="${cy}" x2="${cx}" y2="${H-PAD}"/>
+        <text x="${cx}" y="${H-PAD-8}" text-anchor="middle">${m.x<0?'ME':'WE'} ${Math.abs(m.x).toFixed(2)}</text>
+        <text x="${PAD+6}" y="${cy-6}">${m.y<0?'CARROT':'STICK'} ${Math.abs(m.y).toFixed(2)}</text></g>`;
+    });
+    d.addEventListener('mousemove',e=>{
+      const r=box.getBoundingClientRect();
+      let L=e.clientX-r.left+16, T=e.clientY-r.top+14;
+      if(L+270>r.width) L=e.clientX-r.left-280;
+      if(T+120>r.height) T=e.clientY-r.top-110;
+      tip.style.left=L+'px'; tip.style.top=T+'px';
+    });
+    d.addEventListener('mouseleave',()=>{d.setAttribute('r','6.5');tip.classList.remove('show');cross.innerHTML='';});
+    d.addEventListener('click',()=>openPanel(m.id));
+  });
+}
+
+/* ---------- library ---------- */
+function renderLib(){
+  const lib=$('#libView');
+  const list=filtered();
+  if(!list.length){
+    lib.innerHTML=`<div class="empty">Nothing in the drawer matches. The mechanic you're imagining might be hiding under another name.<button class="deal" id="emptyClear">Clear all filters</button></div>`;
+    $('#emptyClear').onclick=()=>{state.cats.clear();state.risks.clear();state.q='';$('#q').value='';renderAll();};
+    return;
+  }
+  let h='';
+  for(const ck of CAT_ORDER){
+    const items=list.filter(m=>m.c===ck);
+    if(!items.length) continue;
+    const c=CATS[ck];
+    h+=`<div class="cat-block"><div class="cat-head"><span class="tick" style="background:${c.c}"></span>
+      <h2>${c.name}</h2><span class="cn">${c.note} · ${items.length}</span></div><div class="grid">`;
+    for(const m of items){
+      h+=`<button class="card" style="--c:${CATS[m.c].c}" data-id="${m.id}">
+        <span class="top"><span>${CATS[m.c].name}</span><span class="risk ${RISKS[m.risk][1]}">${RISKS[m.risk][0]}</span></span>
+        <h3>${m.n}</h3><span class="tag">${m.tag}</span>
+        <span class="foot">${domsOf(m).map(d=>`<span class="dpill">${DOMS[d]}</span>`).join('')}<span class="coords">${coordLabel(m)}</span></span>
+      </button>`;
+    }
+    h+='</div></div>';
+  }
+  lib.innerHTML=h;
+  lib.querySelectorAll('.card').forEach(c=>c.onclick=()=>openPanel(c.dataset.id));
+}
+
+/* ---------- dossier panel ---------- */
+const VAL={1:['▲','g'],0:['◆','m'],'-1':['▼','b']};
+function openPanel(id){
+  const m=byId[id]; if(!m) return;
+  const c=CATS[m.c];
+  $('#panel').innerHTML=`<div class="panel-in">
+    <button class="p-close" id="pclose">Close ✕</button>
+    <div class="p-cat" style="color:${c.c}"><span class="tick" style="background:${c.c}"></span>${c.name}</div>
+    <h2>${m.n}</h2>
+    <div class="p-tag">${m.tag}</div>
+    <div class="p-meta"><span class="risk ${RISKS[m.risk][1]}">${RISKS[m.risk][0]}</span><span>ATLAS · ${coordLabel(m)}</span><span>SIGHTED IN · ${domsOf(m).map(d=>DOMS[d]).join(' / ').toUpperCase()}</span></div>
+    <div class="sect"><div class="sh">What it is</div><p>${m.def}</p></div>
+    <div class="sect"><div class="sh">In the brain <em>· why it works on one person</em></div><p>${m.brain}</p></div>
+    <div class="sect"><div class="sh">In the group <em>· why it spreads through many</em></div><p>${m.soc}</p></div>
+    <div class="sect"><div class="sh">Sightings <em>· ▲ worked &nbsp;▼ backfired &nbsp;◆ contested</em></div>
+      ${m.ex.map(e=>`<div class="sight"><span class="sv ${VAL[e.v][1]}">${VAL[e.v][0]}</span>
+        <div class="sd"><div class="sn">${e.n}<span class="dm">${DOMS[e.d]}</span></div><div class="st">${e.t}</div></div></div>`).join('')}
+    </div>
+    <div class="sect"><div class="sh">Founder's playbook</div>
+      <div class="playbook">
+        <div class="pb build"><div class="ph">BUILD</div><p>${m.build}</p></div>
+        <div class="pb avoid"><div class="ph">AVOID</div><p>${m.avoid}</p></div>
+      </div>
+    </div>
+    <div class="sect"><div class="sh">Principles at work</div>
+      <div class="tagrow">${m.tags.map(t=>`<button class="ptag" data-t="${t}">${t}</button>`).join('')}</div>
+    </div>
+    <div class="sect"><div class="sh">Adjacent mechanics</div>
+      <div class="relrow">${m.rel.map(r=>byId[r]?`<button class="rel" style="--c:${CATS[byId[r].c].c}" data-r="${r}">${byId[r].n}</button>`:'').join('')}</div>
+    </div>
+  </div>`;
+  $('#panel').classList.add('show'); $('#scrim').classList.add('show');
+  document.body.style.overflow='hidden';
+  $('#panel').scrollTop=0;
+  $('#pclose').onclick=closePanel;
+  $('#pclose').focus();
+  document.querySelectorAll('.ptag').forEach(b=>b.onclick=()=>{
+    state.q=b.dataset.t; $('#q').value=state.q; closePanel(); setView('lib'); renderAll();
+  });
+  document.querySelectorAll('.rel').forEach(b=>b.onclick=()=>openPanel(b.dataset.r));
+}
+function closePanel(){
+  $('#panel').classList.remove('show'); $('#scrim').classList.remove('show');
+  document.body.style.overflow='';
+}
+$('#scrim').onclick=closePanel;
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape') closePanel();
+  if(e.key==='/' && document.activeElement!==$('#q')){e.preventDefault();$('#q').focus();}
+});
+
+/* ---------- views, search, deal ---------- */
+function setView(v){
+  state.view=v;
+  $('#atlasView').hidden = v!=='map';
+  $('#libView').hidden = v!=='lib';
+  $('#tab-map').classList.toggle('on',v==='map');
+  $('#tab-lib').classList.toggle('on',v==='lib');
+  $('#tab-map').setAttribute('aria-selected',v==='map');
+  $('#tab-lib').setAttribute('aria-selected',v==='lib');
+}
+$('#tab-map').onclick=()=>{setView('map');renderAll();};
+$('#tab-lib').onclick=()=>{setView('lib');renderAll();};
+$('#q').addEventListener('input',e=>{state.q=e.target.value.trim();renderAll();});
+$('#deal').onclick=()=>{
+  const pool=filtered().length?filtered():DATA;
+  openPanel(pool[Math.floor(Math.random()*pool.length)].id);
+};
+
+function renderAll(){
+  renderFilters();
+  if(state.view==='map') renderMap(); else renderLib();
+}
+renderAll();
+</script>
+</body>
+</html>
