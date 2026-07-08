@@ -47,12 +47,19 @@ scripts, fonts, or tracking, and no network calls unless you bring your own API 
 
 ## Bring your own brain (optional)
 
-Open **⚙ settings**, add an **Anthropic or OpenAI API key**, and describe your company.
-Every dossier then grows an **⚡ Apply to my company** button: eight divergent ways that
-mechanic could work for your business — bad ideas included on purpose, with honest
-dark-pattern warnings per idea. The key and description live only in your browser's
-localStorage; requests go directly from your browser to the provider you chose (the site
-has no server). Results are cached locally so re-opening a dossier doesn't re-spend.
+Open **⚙ settings**, add an **Anthropic or OpenAI API key**, pick a model power (Haiku /
+Sonnet / Opus, or GPT-5 mini / GPT-5.1 / GPT-5.1 high reasoning — plus a custom escape
+hatch), and describe your company. Every dossier then grows an **⚡ Apply to my company**
+button: eight divergent ways that mechanic could work for your business — bad ideas
+included on purpose, with honest dark-pattern warnings per idea.
+
+Each generation is a **run**: it keeps going if you close the dossier or switch tabs, and
+pings you when it's done. All runs collect on the **My company** tab — one card per run,
+with **★ favorites** pinned by default and the rest behind a per-run *show all* toggle
+(so you can star new keepers from the full list later). Star from the dossier or from the
+runs page; they stay in sync. The key, description, runs, and favorites live only in your
+browser's localStorage; requests go directly from your browser to the provider you chose
+(the site has no server).
 
 Extras: deep-link any mechanic (`index.html#m=streaks`), share a stack
 (`index.html#stack=streaks,loss-aversion,guilds`), **Copy founder brief** turns a dossier
